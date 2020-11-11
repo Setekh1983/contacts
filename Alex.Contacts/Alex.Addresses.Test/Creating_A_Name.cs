@@ -16,11 +16,11 @@ namespace Alex.Addresses.Test
     [Fact]
     public void With_Minimal_Parameters()
     {
-      Result<Name> contact = Name.Create("Homer", "Simpson");
+      Result<Name> name = Name.Create("Homer", "Simpson");
 
-      contact.Should().NotBeNull();
-      contact.Value.Forename.Should().Be("Homer");
-      contact.Value.Surname.Should().Be("Simpson");
+      name.Should().NotBeNull();
+      name.Value.Forename.Should().Be("Homer");
+      name.Value.Surname.Should().Be("Simpson");
     }
 
     [Fact]
