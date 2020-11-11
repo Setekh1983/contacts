@@ -12,8 +12,8 @@ namespace Alex.Addresses
       this.Surname = surname;
     }
 
-    public string Forename { get; set; }
-    public string Surname { get; set; }
+    public string Forename { get; }
+    public string Surname { get; }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

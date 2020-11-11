@@ -25,5 +25,6 @@ namespace Alex.Addresses.Test
 
       action.Should().Throw<ArgumentNullException>();
     }
+
   }
 }
