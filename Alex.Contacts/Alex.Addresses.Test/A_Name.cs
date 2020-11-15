@@ -17,8 +17,8 @@ namespace Alex.Addresses.Test
       Result<Name> name = Name.Create("Homer", "Simpson");
 
       name.Should().NotBeNull();
-      name.Value.Forename.Should().Be("Homer");
-      name.Value.Surname.Should().Be("Simpson");
+      name.Value.FirstName.Should().Be("Homer");
+      name.Value.LastName.Should().Be("Simpson");
       name.Value.ToString().Should().Be("Homer Simpson");
       ((string)name.Value).Should().Be("Homer Simpson");
     }
@@ -83,8 +83,8 @@ namespace Alex.Addresses.Test
       Result<Name> name = Name.Create("    Homer   ", "   Simpson    ");
 
       name.IsSuccess.Should().BeTrue();
-      name.Value.Forename.Should().Be("Homer");
-      name.Value.Surname.Should().Be("Simpson");
+      name.Value.FirstName.Should().Be("Homer");
+      name.Value.LastName.Should().Be("Simpson");
       name.Value.ToString().Should().Be("Homer Simpson");
       ((string)name.Value).Should().Be("Homer Simpson");
     }

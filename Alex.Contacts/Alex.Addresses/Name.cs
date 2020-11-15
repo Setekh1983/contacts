@@ -4,17 +4,17 @@ namespace Alex.Addresses
 {
   public sealed record Name
   {
-    private Name(string forename, string surname)
+    private Name(string firstName, string lastName)
     {
-      this.Forename = forename;
-      this.Surname = surname;
+      this.FirstName = firstName;
+      this.LastName = lastName;
     }
 
-    public string Forename { get; }
-    public string Surname { get; }
+    public string FirstName { get; }
+    public string LastName { get; }
 
     public override string ToString()
-      => string.Concat(this.Forename, " ", this.Surname);
+      => string.Concat(this.FirstName, " ", this.LastName);
 
     public static implicit operator string(Name name)
      => (name is null) ? string.Empty : name.ToString();
