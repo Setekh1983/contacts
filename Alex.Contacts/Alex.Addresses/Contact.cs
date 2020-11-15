@@ -12,7 +12,7 @@ namespace Alex.Addresses
     }
 
     public Address Address { get; private set; }
-    public Name Name { get; }
+    public Name Name { get; private set; }
 
     public void SetAddress(Address address)
     {
@@ -20,6 +20,12 @@ namespace Alex.Addresses
 
       this.Address = address;
     }
-  }
 
+    public void CorrectName(Name correctedName)
+    {
+      _ = correctedName ?? throw new ArgumentNullException(nameof(correctedName));
+
+      this.Name = correctedName;
+    }
+  }
 }

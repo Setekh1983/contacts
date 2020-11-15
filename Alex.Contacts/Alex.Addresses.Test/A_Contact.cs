@@ -13,22 +13,35 @@ namespace Alex.Addresses.Test
     {
       Address address = Address.Create("Springfield", "12345", "Evergreen Terrace", "742").Value;
       Name name = Name.Create("Homer", "Simpson").Value;
-      Contact contact = new Contact(name);
 
-      contact.SetAddress(address);
+      Contact sut = new Contact(name);
 
-      contact.Address.Should().Be(address);
+      sut.SetAddress(address);
+
+      sut.Address.Should().Be(address);
     }
 
     [Fact]
     public void Does_Not_Accept_A_Null_Address()
     {
       Name name = Name.Create("Homer", "Simpson").Value;
-      Contact contact = new Contact(name);
+      Contact sut = new Contact(name);
 
-      Action action = () => contact.SetAddress(null);
+      Action action = () => sut.SetAddress(null);
 
       action.Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void Can_Correct_Its_Name()
+    {
+      Name wrongName = Name.Create("Fred", "Simpson").Value;
+      Name correctName = Name.Create("Homer", wrongName.LastName).Value;
+
+      Contact sut = new Contact(wrongName);
+      sut.CorrectName(correctName);
+
+      sut.Name.Should().Be(correctName);
     }
   }
 }

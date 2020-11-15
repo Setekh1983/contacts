@@ -13,9 +13,9 @@ namespace Alex.Addresses.Test
     {
       Name name = Name.Create("Homer", "Simpson").Value;
 
-      Contact contact = new Contact(name);
+      Contact sut = new Contact(name);
 
-      contact.Should().NotBeNull();
+      sut.Should().NotBeNull();
     }
 
     [Fact]

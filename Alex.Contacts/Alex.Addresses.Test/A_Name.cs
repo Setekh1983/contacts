@@ -14,87 +14,87 @@ namespace Alex.Addresses.Test
     [Fact]
     public void Can_Be_Created_With_Forename_And_Surname()
     {
-      Result<Name> name = Name.Create("Homer", "Simpson");
+      Result<Name> sut = Name.Create("Homer", "Simpson");
 
-      name.Should().NotBeNull();
-      name.Value.FirstName.Should().Be("Homer");
-      name.Value.LastName.Should().Be("Simpson");
-      name.Value.ToString().Should().Be("Homer Simpson");
-      ((string)name.Value).Should().Be("Homer Simpson");
+      sut.Should().NotBeNull();
+      sut.Value.FirstName.Should().Be("Homer");
+      sut.Value.LastName.Should().Be("Simpson");
+      sut.Value.ToString().Should().Be("Homer Simpson");
+      ((string)sut.Value).Should().Be("Homer Simpson");
     }
 
     [Fact]
     public void Cannot_Be_Created_With_An_Empty_Forename()
     {
-      Result<Name> name = Name.Create("", "Simpson");
+      Result<Name> sut = Name.Create("", "Simpson");
 
-      name.IsFailure.Should().BeTrue();
-      name.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
+      sut.IsFailure.Should().BeTrue();
+      sut.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
     }
 
     [Fact]
     public void Cannot_Be_Created_With_Null_As_A_Forename()
     {
-      Result<Name> name = Name.Create(null, "Simpson");
+      Result<Name> sut = Name.Create(null, "Simpson");
 
-      name.IsFailure.Should().BeTrue();
-      name.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
+      sut.IsFailure.Should().BeTrue();
+      sut.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
     }
 
     [Fact]
     public void Cannot_Be_Created_With_Whitespace_As_A_Forename()
     {
-      Result<Name> name = Name.Create("   ", "Simpson");
+      Result<Name> sut = Name.Create("   ", "Simpson");
 
-      name.IsFailure.Should().BeTrue();
-      name.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
+      sut.IsFailure.Should().BeTrue();
+      sut.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
     }
 
     [Fact]
     public void Cannot_Be_Created_With_An_Empty_Surname()
     {
-      Result<Name> name = Name.Create("Homer", "");
+      Result<Name> sut = Name.Create("Homer", "");
 
-      name.IsFailure.Should().BeTrue();
-      name.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
+      sut.IsFailure.Should().BeTrue();
+      sut.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
     }
 
     [Fact]
     public void Cannot_Be_Created_With_Null_As_A_Surname()
     {
-      Result<Name> name = Name.Create("Homer", null);
+      Result<Name> sut = Name.Create("Homer", null);
 
-      name.IsFailure.Should().BeTrue();
-      name.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
+      sut.IsFailure.Should().BeTrue();
+      sut.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
     }
 
     [Fact]
     public void Cannot_Be_Created_With_Whitespace_As_A_Surname()
     {
-      Result<Name> name = Name.Create("Homer", "   ");
+      Result<Name> sut = Name.Create("Homer", "   ");
 
-      name.IsFailure.Should().BeTrue();
-      name.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
+      sut.IsFailure.Should().BeTrue();
+      sut.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
     }
 
     [Fact]
     public void Removes_Trailing_And_Leading_Spaces_From_Forename_And_Surname()
     {
-      Result<Name> name = Name.Create("    Homer   ", "   Simpson    ");
+      Result<Name> sut = Name.Create("    Homer   ", "   Simpson    ");
 
-      name.IsSuccess.Should().BeTrue();
-      name.Value.FirstName.Should().Be("Homer");
-      name.Value.LastName.Should().Be("Simpson");
-      name.Value.ToString().Should().Be("Homer Simpson");
-      ((string)name.Value).Should().Be("Homer Simpson");
+      sut.IsSuccess.Should().BeTrue();
+      sut.Value.FirstName.Should().Be("Homer");
+      sut.Value.LastName.Should().Be("Simpson");
+      sut.Value.ToString().Should().Be("Homer Simpson");
+      ((string)sut.Value).Should().Be("Homer Simpson");
     }
 
     [Fact]
     public void Containing_Null_Can_Be_Cast_To_An_Empty_String()
     {
-      Name? name = null;
+      Name? sut = null;
 
-      ((string)name).Should().BeEmpty();
+      ((string)sut).Should().BeEmpty();
     }
   }
 }
