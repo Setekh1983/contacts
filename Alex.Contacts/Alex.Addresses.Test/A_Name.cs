@@ -2,29 +2,29 @@ using CSharpFunctionalExtensions;
 
 using FluentAssertions;
 
-using System;
-
 using Xunit;
 
 namespace Alex.Addresses.Test
 {
-  public class Creating_A_Name
+  public class A_Name
   {
     private const string MISSING_SURNAME_ERROR_MESSAGE = "Please provide a surname.";
     private const string MISSING_FORNAME_ERROR_MESSAGE = "Please provide a forename.";
 
     [Fact]
-    public void With_Minimal_Parameters()
+    public void Can_Be_Created_With_Forename_And_Surname()
     {
       Result<Name> name = Name.Create("Homer", "Simpson");
 
       name.Should().NotBeNull();
       name.Value.Forename.Should().Be("Homer");
       name.Value.Surname.Should().Be("Simpson");
+      name.Value.ToString().Should().Be("Homer Simpson");
+      ((string)name.Value).Should().Be("Homer Simpson");
     }
 
     [Fact]
-    public void Does_Not_Accept_An_Empty_Forename()
+    public void Cannot_Be_Created_With_An_Empty_Forename()
     {
       Result<Name> name = Name.Create("", "Simpson");
 
@@ -33,7 +33,7 @@ namespace Alex.Addresses.Test
     }
 
     [Fact]
-    public void Does_Not_Accept_Null_As_A_Forename()
+    public void Cannot_Be_Created_With_Null_As_A_Forename()
     {
       Result<Name> name = Name.Create(null, "Simpson");
 
@@ -42,7 +42,7 @@ namespace Alex.Addresses.Test
     }
 
     [Fact]
-    public void Does_Not_Accept_Whitespace_As_A_Forename()
+    public void Cannot_Be_Created_With_Whitespace_As_A_Forename()
     {
       Result<Name> name = Name.Create("   ", "Simpson");
 
@@ -51,7 +51,7 @@ namespace Alex.Addresses.Test
     }
 
     [Fact]
-    public void Does_Not_Accept_An_Empty_Surname()
+    public void Cannot_Be_Created_With_An_Empty_Surname()
     {
       Result<Name> name = Name.Create("Homer", "");
 
@@ -60,7 +60,7 @@ namespace Alex.Addresses.Test
     }
 
     [Fact]
-    public void Does_Not_Accept_Null_As_A_Surname()
+    public void Cannot_Be_Created_With_Null_As_A_Surname()
     {
       Result<Name> name = Name.Create("Homer", null);
 
@@ -69,7 +69,7 @@ namespace Alex.Addresses.Test
     }
 
     [Fact]
-    public void Does_Not_Accept_Whitespace_As_A_Surname()
+    public void Cannot_Be_Created_With_Whitespace_As_A_Surname()
     {
       Result<Name> name = Name.Create("Homer", "   ");
 
@@ -85,6 +85,16 @@ namespace Alex.Addresses.Test
       name.IsSuccess.Should().BeTrue();
       name.Value.Forename.Should().Be("Homer");
       name.Value.Surname.Should().Be("Simpson");
+      name.Value.ToString().Should().Be("Homer Simpson");
+      ((string)name.Value).Should().Be("Homer Simpson");
+    }
+
+    [Fact]
+    public void Containing_Null_Can_Be_Cast_To_An_Empty_String()
+    {
+      Name? name = null;
+
+      ((string)name).Should().BeEmpty();
     }
   }
 }

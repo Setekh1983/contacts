@@ -70,6 +70,15 @@ namespace Alex.Addresses
       return address;
     }
 
+    public static implicit operator string(Address address)
+    {
+      if (address == null)
+      {
+        return string.Empty;
+      }
+      return address.ToString();
+    }
+
     public static Result<Address> Create(string city, string cityCode, string street, string houseNumber)
     {
       if (string.IsNullOrWhiteSpace(city) &&

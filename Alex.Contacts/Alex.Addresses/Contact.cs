@@ -14,11 +14,12 @@ namespace Alex.Addresses
     public Address Address { get; private set; }
     public Name Name { get; }
 
-    public void AddAddress(Address address)
+    public void SetAddress(Address address)
     {
       _ = address ?? throw new ArgumentNullException(nameof(address));
 
       this.Address = address;
     }
   }
+
 }

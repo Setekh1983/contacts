@@ -2,8 +2,6 @@ using CSharpFunctionalExtensions;
 
 using FluentAssertions;
 
-using System;
-
 using Xunit;
 
 namespace Alex.Addresses.Test
@@ -22,6 +20,9 @@ namespace Alex.Addresses.Test
       address.Value.Housenumber.Should().Be("742");
 
       address.Value.ToString().Should().Be(@"Evergreen Terrace 742
+12345 Springfield");
+
+      ((string)address.Value).Should().Be(@"Evergreen Terrace 742
 12345 Springfield");
     }
 
@@ -45,6 +46,7 @@ namespace Alex.Addresses.Test
       address.Value.Street.Should().BeNull();
       address.Value.Housenumber.Should().BeNull();
       address.Value.ToString().Should().Be("Springfield");
+      ((string)address.Value).Should().Be("Springfield");
     }
 
     [Fact]
@@ -58,6 +60,7 @@ namespace Alex.Addresses.Test
       address.Value.Street.Should().BeNull();
       address.Value.Housenumber.Should().BeNull();
       address.Value.ToString().Should().Be("12345");
+      ((string)address.Value).Should().Be("12345");
     }
 
     [Fact]
@@ -71,6 +74,7 @@ namespace Alex.Addresses.Test
       address.Value.Street.Should().Be("Evergreen Terrace");
       address.Value.Housenumber.Should().BeNull();
       address.Value.ToString().Should().Be("Evergreen Terrace");
+      ((string)address.Value).Should().Be("Evergreen Terrace");
     }
 
     [Fact]
@@ -84,6 +88,7 @@ namespace Alex.Addresses.Test
       address.Value.Street.Should().BeNull();
       address.Value.Housenumber.Should().Be("742");
       address.Value.ToString().Should().Be("742");
+      ((string)address.Value).Should().Be("742");
     }
   }
 }

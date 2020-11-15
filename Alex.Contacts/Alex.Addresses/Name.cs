@@ -20,6 +20,19 @@ namespace Alex.Addresses
       yield return this.Forename;
       yield return this.Surname;
     }
+
+    public override string ToString()
+      => string.Concat(this.Forename, " ", this.Surname);
+
+    public static implicit operator string(Name name)
+    {
+      if (name is null)
+      {
+        return string.Empty;
+      }
+      return name.ToString();
+    }
+
     public static Result<Name> Create(string forename, string surname)
     {
       if (string.IsNullOrWhiteSpace(forename))

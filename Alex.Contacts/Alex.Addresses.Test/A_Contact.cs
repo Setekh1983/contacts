@@ -15,7 +15,7 @@ namespace Alex.Addresses.Test
       Name name = Name.Create("Homer", "Simpson").Value;
       Contact contact = new Contact(name);
 
-      contact.AddAddress(address);
+      contact.SetAddress(address);
 
       contact.Address.Should().Be(address);
     }
@@ -26,10 +26,9 @@ namespace Alex.Addresses.Test
       Name name = Name.Create("Homer", "Simpson").Value;
       Contact contact = new Contact(name);
 
-      Action action = () => contact.AddAddress(null);
+      Action action = () => contact.SetAddress(null);
 
       action.Should().Throw<ArgumentNullException>();
     }
-
   }
 }
