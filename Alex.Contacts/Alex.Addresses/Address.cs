@@ -1,11 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 
 using System;
-using System.Collections.Generic;
 
 namespace Alex.Addresses
 {
-  public class Address : ValueObject
+  public record Address
   {
     private Address(string city, string cityCode, string street, string houseNumber)
     {
@@ -19,14 +18,6 @@ namespace Alex.Addresses
     public string Street { get; }
     public string CityCode { get; }
     public string City { get; }
-
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-      yield return this.CityCode;
-      yield return this.City;
-      yield return this.Street;
-      yield return this.Housenumber;
-    }
 
     public override string ToString()
     {
@@ -71,13 +62,7 @@ namespace Alex.Addresses
     }
 
     public static implicit operator string(Address address)
-    {
-      if (address == null)
-      {
-        return string.Empty;
-      }
-      return address.ToString();
-    }
+      => (address is null) ? string.Empty : address.ToString();
 
     public static Result<Address> Create(string city, string cityCode, string street, string houseNumber)
     {
