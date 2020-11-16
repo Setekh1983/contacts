@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Alex.DddBasics;
+
+using System;
 
 namespace Alex.Addresses
 {
-  public class Contact
+  public class Contact : Entity
   {
     public Contact(Name name)
     {

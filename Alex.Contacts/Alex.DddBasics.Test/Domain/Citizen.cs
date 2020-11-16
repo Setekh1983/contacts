@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Alex.DomainDrivenDesign.Basics.Test.Domain
+namespace Alex.DddBasics.Test.Domain
 {
-  public class Citizen
+  public class Citizen : Entity
   //public class Citizen : AggregateRoot
   {
     //  public Citizen()
@@ -25,6 +25,14 @@ namespace Alex.DomainDrivenDesign.Basics.Test.Domain
     //    this.Address = new Address(evt.City, evt.CityCode, evt.Street, evt.HouseNumber, evt.Country);
 
     //  private void Apply(CitizenMarriedEvent evt) => this.Partner = evt.PartnerId;
+    public Citizen(Guid guid)
+      : base(guid)
+    {
+    }
+    public Citizen()
+      : base()
+    {
+    }
   }
 
 

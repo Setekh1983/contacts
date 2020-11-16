@@ -8,3 +8,6 @@ csharp_style_unused_value_expression_statement_preference = discard_variable:non
 
 # CS8604: Possible null reference argument.
 dotnet_diagnostic.CS8604.severity = none
+
+# CS0253: Possible unintended reference comparison; right hand side needs cast
+dotnet_diagnostic.CS0253.severity = none

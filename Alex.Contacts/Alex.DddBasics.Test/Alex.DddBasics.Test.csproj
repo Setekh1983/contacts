@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Alex.DddBasics\Alex.DddBasics.csproj" />
+  </ItemGroup>
+
 </Project>
