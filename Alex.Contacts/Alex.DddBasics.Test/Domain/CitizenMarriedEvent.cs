@@ -1,16 +1,17 @@
-﻿//using System;
+﻿using System;
 
-//namespace Alex.DomainDrivenDesign.Basics.Test.Domain
-//{
-//  public class CitizenMarriedEvent : DomainEvent
-//  {
-//    public CitizenMarriedEvent(Guid citizenId, Guid partnerId)
-//    {
-//      this.CitizenId = citizenId;
-//      this.PartnerId = partnerId;
-//    }
+namespace Alex.DddBasics.Test.Domain
+{
+  public sealed class CitizenMarriedEvent : IDomainEvent
+  {
 
-//    public Guid CitizenId { get; }
-//    public Guid PartnerId { get; }
-//  }
-//}
+    public CitizenMarriedEvent(Guid citizen, Guid marriedToCitizen)
+    {
+      this.Citizen = citizen;
+      this.MarriedToCitizen = marriedToCitizen;
+    }
+
+    public Guid Citizen { get; }
+    public Guid MarriedToCitizen { get; }
+  }
+}
