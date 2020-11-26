@@ -7,12 +7,16 @@ namespace Alex.DddBasics
 {
   internal class ExposedObject : DynamicObject
   {
-    private const BindingFlags PrivateInstanceFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
-    private object _UnderlyingObject;
-    Dictionary<Type, MethodInfo> _EventTypeMapping = new Dictionary<Type, MethodInfo>();
+    const BindingFlags PrivateInstanceFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
+    readonly object _UnderlyingObject;
+
+    readonly Dictionary<Type, MethodInfo> _EventTypeMapping;
 
     public ExposedObject(object underlyingObject)
     {
+      _ = underlyingObject ?? throw new ArgumentNullException(nameof(underlyingObject));
+
+      this._EventTypeMapping = new Dictionary<Type, MethodInfo>();
       this._UnderlyingObject = underlyingObject;
 
       this.Initialize(underlyingObject.GetType());

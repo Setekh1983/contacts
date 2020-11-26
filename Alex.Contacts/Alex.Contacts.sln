@@ -7,11 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alex.Contacts.Service", "Al
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alex.Addresses", "Alex.Addresses\Alex.Addresses.csproj", "{7AB1710C-18A6-405E-B7F7-768EBDF91A2A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2FD39404-5896-4AAC-9EB0-842694C15D34}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alex.DddBasics", "Alex.DddBasics\Alex.DddBasics.csproj", "{4DA97798-4D12-47D4-8E7F-59DFD53705FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alex.DddBasics.Test", "Alex.DddBasics.Test\Alex.DddBasics.Test.csproj", "{8428AEDF-5FD5-4201-8F8F-FBCA4A9036C5}"
