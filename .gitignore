@@ -351,5 +351,7 @@ MigrationBackup/
 
 # EventStore
 app-logs/
-EventStore/files/configuration/
-EventStore/files/data/
+EventStore/files/configuration/*
+!EventStore/files/configuration/readme.txt
+EventStore/files/data/*
+!EventStore/files/data/readme.txt
