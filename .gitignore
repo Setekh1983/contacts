@@ -351,3 +351,5 @@ MigrationBackup/
 
 # EventStore
 app-logs/
+EventStore/files/configuration/
+EventStore/files/data/
