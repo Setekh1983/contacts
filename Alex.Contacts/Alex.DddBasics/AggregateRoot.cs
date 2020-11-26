@@ -14,8 +14,8 @@ namespace Alex.DddBasics
 
     List<IDomainEvent> Events { get; }
 
-    public IReadOnlyCollection<IDomainEvent> GetChanges() => new ReadOnlyCollection<IDomainEvent>(this.Events);
-    public void ClearEvents() => this.Events.Clear();
+    public IEnumerable<IDomainEvent> GetChanges() => new ReadOnlyCollection<IDomainEvent>(this.Events);
+    internal void ClearEvents() => this.Events.Clear();
 
     protected void ApplyEvent(IDomainEvent domainEvent)
     {

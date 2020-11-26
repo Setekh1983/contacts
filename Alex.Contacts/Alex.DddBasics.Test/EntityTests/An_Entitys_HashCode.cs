@@ -2,15 +2,16 @@ using Alex.DddBasics.Test.Domain;
 
 using FluentAssertions;
 
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Xunit;
+using System;
 
 namespace Alex.DddBasics.Test.EntityTests
 {
+  [TestClass]
   public class An_Entitys_HashCode
   {
-    [Fact]
+    [TestMethod]
     public void Is_Always_The_Same_For_The_Same_Guid_And_Type()
     {
       var guid = Guid.NewGuid();
@@ -19,7 +20,7 @@ namespace Alex.DddBasics.Test.EntityTests
 
       entity1.GetHashCode().Should().Be(entity2.GetHashCode());
     }
-    [Fact]
+    [TestMethod]
     public void Is_Different_For_The_Different_Guids_And_The_Same_Type()
     {
       var entity1 = new Citizen();
@@ -27,7 +28,7 @@ namespace Alex.DddBasics.Test.EntityTests
 
       entity1.GetHashCode().Should().NotBe(entity2.GetHashCode());
     }
-    [Fact]
+    [TestMethod]
     public void Is_Different_For_The_Same_Guid_And_Different_Types()
     {
       var guid = Guid.NewGuid();

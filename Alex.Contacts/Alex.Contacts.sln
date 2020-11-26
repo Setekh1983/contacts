@@ -7,16 +7,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alex.Contacts.Service", "Al
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alex.Addresses", "Alex.Addresses\Alex.Addresses.csproj", "{7AB1710C-18A6-405E-B7F7-768EBDF91A2A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alex.Addresses.Test", "Alex.Addresses.Test\Alex.Addresses.Test.csproj", "{38264FBF-0A07-4ED3-85B7-B310EE37AFF3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2FD39404-5896-4AAC-9EB0-842694C15D34}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alex.DddBasics", "Alex.DddBasics\Alex.DddBasics.csproj", "{4DA97798-4D12-47D4-8E7F-59DFD53705FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alex.DddBasics", "Alex.DddBasics\Alex.DddBasics.csproj", "{4DA97798-4D12-47D4-8E7F-59DFD53705FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alex.DddBasics.Test", "Alex.DddBasics.Test\Alex.DddBasics.Test.csproj", "{3928E65E-D642-4819-B2B0-765FCE52044B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alex.DddBasics.Test", "Alex.DddBasics.Test\Alex.DddBasics.Test.csproj", "{8428AEDF-5FD5-4201-8F8F-FBCA4A9036C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alex.Addresses.Test", "Alex.Addresses.Test\Alex.Addresses.Test.csproj", "{3482FC2C-3496-46D5-A39C-3DEDE482F7A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,18 +32,18 @@ Global
 		{7AB1710C-18A6-405E-B7F7-768EBDF91A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AB1710C-18A6-405E-B7F7-768EBDF91A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AB1710C-18A6-405E-B7F7-768EBDF91A2A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{38264FBF-0A07-4ED3-85B7-B310EE37AFF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38264FBF-0A07-4ED3-85B7-B310EE37AFF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38264FBF-0A07-4ED3-85B7-B310EE37AFF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{38264FBF-0A07-4ED3-85B7-B310EE37AFF3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4DA97798-4D12-47D4-8E7F-59DFD53705FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4DA97798-4D12-47D4-8E7F-59DFD53705FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DA97798-4D12-47D4-8E7F-59DFD53705FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DA97798-4D12-47D4-8E7F-59DFD53705FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3928E65E-D642-4819-B2B0-765FCE52044B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3928E65E-D642-4819-B2B0-765FCE52044B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3928E65E-D642-4819-B2B0-765FCE52044B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3928E65E-D642-4819-B2B0-765FCE52044B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8428AEDF-5FD5-4201-8F8F-FBCA4A9036C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8428AEDF-5FD5-4201-8F8F-FBCA4A9036C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8428AEDF-5FD5-4201-8F8F-FBCA4A9036C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8428AEDF-5FD5-4201-8F8F-FBCA4A9036C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3482FC2C-3496-46D5-A39C-3DEDE482F7A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3482FC2C-3496-46D5-A39C-3DEDE482F7A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3482FC2C-3496-46D5-A39C-3DEDE482F7A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3482FC2C-3496-46D5-A39C-3DEDE482F7A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

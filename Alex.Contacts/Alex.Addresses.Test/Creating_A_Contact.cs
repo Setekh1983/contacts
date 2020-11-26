@@ -1,14 +1,15 @@
 using FluentAssertions;
 
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Xunit;
+using System;
 
 namespace Alex.Addresses.Test
 {
+  [TestClass]
   public class Creating_A_Contact
   {
-    [Fact]
+    [TestMethod]
     public void With_Minimal_Parameters()
     {
       Name name = Name.Create("Homer", "Simpson").Value;
@@ -18,7 +19,7 @@ namespace Alex.Addresses.Test
       sut.Should().NotBeNull();
     }
 
-    [Fact]
+    [TestMethod]
     public void Requires_A_Name()
     {
       Action action = () => new Contact(null);

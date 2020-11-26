@@ -1,14 +1,15 @@
 using FluentAssertions;
 
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Xunit;
+using System;
 
 namespace Alex.Addresses.Test
 {
+  [TestClass]
   public class A_Contact
   {
-    [Fact]
+    [TestMethod]
     public void Can_Contain_An_Address()
     {
       Address address = Address.Create("Springfield", "12345", "Evergreen Terrace", "742").Value;
@@ -21,7 +22,7 @@ namespace Alex.Addresses.Test
       sut.Address.Should().Be(address);
     }
 
-    [Fact]
+    [TestMethod]
     public void Does_Not_Accept_A_Null_Address()
     {
       Name name = Name.Create("Homer", "Simpson").Value;
@@ -32,7 +33,7 @@ namespace Alex.Addresses.Test
       action.Should().Throw<ArgumentNullException>();
     }
 
-    [Fact]
+    [TestMethod]
     public void Can_Correct_Its_Name()
     {
       Name wrongName = Name.Create("Fred", "Simpson").Value;

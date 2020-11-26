@@ -2,16 +2,17 @@ using CSharpFunctionalExtensions;
 
 using FluentAssertions;
 
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Alex.Addresses.Test
 {
+  [TestClass]
   public class A_Name
   {
     private const string MISSING_SURNAME_ERROR_MESSAGE = "Please provide a surname.";
     private const string MISSING_FORNAME_ERROR_MESSAGE = "Please provide a forename.";
 
-    [Fact]
+    [TestMethod]
     public void Can_Be_Created_With_Forename_And_Surname()
     {
       Result<Name> sut = Name.Create("Homer", "Simpson");
@@ -23,7 +24,7 @@ namespace Alex.Addresses.Test
       ((string)sut.Value).Should().Be("Homer Simpson");
     }
 
-    [Fact]
+    [TestMethod]
     public void Cannot_Be_Created_With_An_Empty_Forename()
     {
       Result<Name> sut = Name.Create("", "Simpson");
@@ -32,7 +33,7 @@ namespace Alex.Addresses.Test
       sut.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
     }
 
-    [Fact]
+    [TestMethod]
     public void Cannot_Be_Created_With_Null_As_A_Forename()
     {
       Result<Name> sut = Name.Create(null, "Simpson");
@@ -41,7 +42,7 @@ namespace Alex.Addresses.Test
       sut.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
     }
 
-    [Fact]
+    [TestMethod]
     public void Cannot_Be_Created_With_Whitespace_As_A_Forename()
     {
       Result<Name> sut = Name.Create("   ", "Simpson");
@@ -50,7 +51,7 @@ namespace Alex.Addresses.Test
       sut.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
     }
 
-    [Fact]
+    [TestMethod]
     public void Cannot_Be_Created_With_An_Empty_Surname()
     {
       Result<Name> sut = Name.Create("Homer", "");
@@ -59,7 +60,7 @@ namespace Alex.Addresses.Test
       sut.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
     }
 
-    [Fact]
+    [TestMethod]
     public void Cannot_Be_Created_With_Null_As_A_Surname()
     {
       Result<Name> sut = Name.Create("Homer", null);
@@ -68,7 +69,7 @@ namespace Alex.Addresses.Test
       sut.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
     }
 
-    [Fact]
+    [TestMethod]
     public void Cannot_Be_Created_With_Whitespace_As_A_Surname()
     {
       Result<Name> sut = Name.Create("Homer", "   ");
@@ -77,7 +78,7 @@ namespace Alex.Addresses.Test
       sut.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
     }
 
-    [Fact]
+    [TestMethod]
     public void Removes_Trailing_And_Leading_Spaces_From_Forename_And_Surname()
     {
       Result<Name> sut = Name.Create("    Homer   ", "   Simpson    ");
@@ -89,7 +90,7 @@ namespace Alex.Addresses.Test
       ((string)sut.Value).Should().Be("Homer Simpson");
     }
 
-    [Fact]
+    [TestMethod]
     public void Containing_Null_Can_Be_Cast_To_An_Empty_String()
     {
       Name? sut = null;

@@ -2,29 +2,30 @@ using Alex.DddBasics.Test.Domain;
 
 using FluentAssertions;
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.Collections.Generic;
 using System.Linq;
 
-using Xunit;
-
 namespace Alex.DddBasics.Test.AggregateRootTests
 {
+  [TestClass]
   public class AggregateRootTest
   {
-    [Fact]
+    [TestMethod]
     public void A_New_Aggregate_Has_No_Changes()
     {
-      Citizen sut = new Citizen();
+      var sut = new Citizen();
       IEnumerable<IDomainEvent> events = sut.GetChanges();
 
       events.Should().BeEmpty();
     }
 
-    [Fact]
+    [TestMethod]
     public void Executing_An_Action_Adds_An_Event_To_The_Changes()
     {
-      Citizen homer = new Citizen();
-      Citizen marge = new Citizen();
+      var homer = new Citizen();
+      var marge = new Citizen();
 
       homer.Marry(marge);
       IEnumerable<IDomainEvent> events = homer.GetChanges();
@@ -35,12 +36,12 @@ namespace Alex.DddBasics.Test.AggregateRootTests
         domainEvent.MarriedToCitizen == marge.Id);
     }
 
-    [Fact]
+    [TestMethod]
     public void Executing_Multiple_Actions_Events_Are_Added_In_Order()
     {
-      Citizen homer = new Citizen();
-      Citizen marge = new Citizen();
-      Address address = new Address("Springfield", "12345", "Evergreen Terrace", "123", "USA");
+      var homer = new Citizen();
+      var marge = new Citizen();
+      var address = new Address("Springfield", "12345", "Evergreen Terrace", "123", "USA");
 
       homer.Marry(marge);
       homer.Move(address);
@@ -59,22 +60,6 @@ namespace Alex.DddBasics.Test.AggregateRootTests
         domainEvent.Street == address.Street &&
         domainEvent.HouseNumber == address.HouseNumber &&
         domainEvent.Country == address.Country);
-    }
-
-    [Fact]
-    public void All_Events_Can_Be_Removed()
-    {
-      Citizen homer = new Citizen();
-      Citizen marge = new Citizen();
-      Address address = new Address("Springfield", "12345", "Evergreen Terrace", "123", "USA");
-
-      homer.Marry(marge);
-      homer.Move(address);
-
-      homer.ClearEvents();
-      IEnumerable<IDomainEvent> events = homer.GetChanges();
-
-      events.Should().BeEmpty();
     }
   }
 }

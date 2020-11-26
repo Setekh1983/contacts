@@ -2,13 +2,14 @@ using CSharpFunctionalExtensions;
 
 using FluentAssertions;
 
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Alex.Addresses.Test
 {
+  [TestClass]
   public class Creating_An_Address
   {
-    [Fact]
+    [TestMethod]
     public void With_All_Parameters()
     {
       Result<Address> sut = Address.Create("Springfield", "12345", "Evergreen Terrace", "742");
@@ -26,7 +27,7 @@ namespace Alex.Addresses.Test
 12345 Springfield");
     }
 
-    [Fact]
+    [TestMethod]
     public void Requires_At_Least_One_Parameter()
     {
       Result<Address> sut = Address.Create(null, null, null, null);
@@ -35,7 +36,7 @@ namespace Alex.Addresses.Test
       sut.Error.Should().Be("Please provide at least one value of the address.");
     }
 
-    [Fact]
+    [TestMethod]
     public void Only_From_City()
     {
       Result<Address> sut = Address.Create("Springfield", null, null, null);
@@ -49,7 +50,7 @@ namespace Alex.Addresses.Test
       ((string)sut.Value).Should().Be("Springfield");
     }
 
-    [Fact]
+    [TestMethod]
     public void Only_From_City_Code()
     {
       Result<Address> sut = Address.Create(null, "12345", null, null);
@@ -63,7 +64,7 @@ namespace Alex.Addresses.Test
       ((string)sut.Value).Should().Be("12345");
     }
 
-    [Fact]
+    [TestMethod]
     public void Only_From_Street()
     {
       Result<Address> sut = Address.Create(null, null, "Evergreen Terrace", null);
@@ -77,7 +78,7 @@ namespace Alex.Addresses.Test
       ((string)sut.Value).Should().Be("Evergreen Terrace");
     }
 
-    [Fact]
+    [TestMethod]
     public void Only_From_HouseNumber()
     {
       Result<Address> sut = Address.Create(null, null, null, "742");

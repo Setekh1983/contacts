@@ -2,15 +2,16 @@ using Alex.DddBasics.Test.Domain;
 
 using FluentAssertions;
 
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Xunit;
+using System;
 
 namespace Alex.DddBasics.Test.EntityTests
 {
+  [TestClass]
   public class Creating_An_Entity
   {
-    [Fact]
+    [TestMethod]
     public void Generates_A_New_Id()
     {
       var sut = new Citizen();
@@ -18,7 +19,7 @@ namespace Alex.DddBasics.Test.EntityTests
       sut.Id.Should().NotBeEmpty();
     }
 
-    [Fact]
+    [TestMethod]
     public void Uses_The_Provided_Id()
     {
       var id = Guid.NewGuid();
@@ -28,7 +29,7 @@ namespace Alex.DddBasics.Test.EntityTests
       sut.Id.Should().Be(id);
     }
 
-    [Fact]
+    [TestMethod]
     public void Does_Not_Allow_Empty_Guids()
     {
       Action action = () => new Citizen(Guid.Empty);

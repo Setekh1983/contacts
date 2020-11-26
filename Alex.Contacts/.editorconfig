@@ -11,3 +11,12 @@ dotnet_diagnostic.CS8604.severity = none
 
 # CS0253: Possible unintended reference comparison; right hand side needs cast
 dotnet_diagnostic.CS0253.severity = none
+
+# CS8618: Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+dotnet_diagnostic.CS8618.severity = none
+
+# IDE0051: Remove unused private members
+dotnet_diagnostic.IDE0051.severity = none
+
+# CA1806: Do not ignore method results
+dotnet_diagnostic.CA1806.severity = none
