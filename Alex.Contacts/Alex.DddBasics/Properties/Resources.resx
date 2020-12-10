@@ -120,4 +120,7 @@
   <data name="EmptyGuidsAreNotAllowed" xml:space="preserve">
     <value>An empty GUID is not allowed.</value>
   </data>
+  <data name="NewVersionMustBeGreaterThenPreviousVersion" xml:space="preserve">
+    <value>The new version must be greater than the previous version.</value>
+  </data>
 </root>

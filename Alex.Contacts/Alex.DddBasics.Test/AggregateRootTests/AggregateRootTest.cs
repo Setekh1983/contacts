@@ -22,6 +22,15 @@ namespace Alex.DddBasics.Test.AggregateRootTests
     }
 
     [TestMethod]
+    public void The_Originating_Version_Of_New_Aggregate_Is_Zero()
+    {
+      IPersistableAggregate sut = new Citizen();
+
+      sut.OriginatingVersion.Should().Be(0);
+    }
+
+
+    [TestMethod]
     public void Executing_An_Action_Adds_An_Event_To_The_Changes()
     {
       var homer = new Citizen();
@@ -37,7 +46,7 @@ namespace Alex.DddBasics.Test.AggregateRootTests
     }
 
     [TestMethod]
-    public void Executing_Multiple_Actions_Events_Are_Added_In_Order()
+    public void Executing_Multiple_Actions_Adds_Events_In_Order()
     {
       var homer = new Citizen();
       var marge = new Citizen();
@@ -60,6 +69,29 @@ namespace Alex.DddBasics.Test.AggregateRootTests
         domainEvent.Street == address.Street &&
         domainEvent.HouseNumber == address.HouseNumber &&
         domainEvent.Country == address.Country);
+    }
+
+    [TestMethod]
+    public void Saving_Changes_Clears_The_Changes_And_Sets_The_New_Version()
+    {
+      var homer = new Citizen();
+      var marge = new Citizen();
+      var address = new Address("Springfield", "12345", "Evergreen Terrace", "123", "USA");
+
+      homer.Marry(marge);
+      homer.Move(address);
+
+      IPersistableAggregate aggregate = homer;
+      aggregate.ChangesSaved(2);
+
+      aggregate.GetChanges().Should().BeEmpty();
+      aggregate.OriginatingVersion.Should().Be(2);
+    }
+
+    [TestMethod]
+    public void Setting_A_Lower_Version_Then_The_Current_Causes_An_Error()
+    {
+      throw new AssertInconclusiveException();
     }
   }
 }

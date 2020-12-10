@@ -68,5 +68,14 @@ namespace Alex.DddBasics.Properties {
                 return ResourceManager.GetString("EmptyGuidsAreNotAllowed", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The new version must be greater than the previous version..
+        /// </summary>
+        internal static string NewVersionMustBeGreaterThenPreviousVersion {
+            get {
+                return ResourceManager.GetString("NewVersionMustBeGreaterThenPreviousVersion", resourceCulture);
+            }
+        }
     }
 }
