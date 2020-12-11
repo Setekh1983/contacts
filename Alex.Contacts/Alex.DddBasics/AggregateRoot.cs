@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Alex.DddBasics
 {
@@ -15,14 +16,18 @@ namespace Alex.DddBasics
     List<IDomainEvent> Events { get; }
     long OriginatingVersion { get; set; }
 
-    protected void ApplyEvent(IDomainEvent domainEvent)
+    protected void ApplyEvent(IDomainEvent domainEvent) => this.ApplyEvent(domainEvent, true);
+    private void ApplyEvent(IDomainEvent domainEvent, bool isNew)
     {
       _ = domainEvent ?? throw new ArgumentNullException(nameof(domainEvent));
 
       dynamic exposed = new ExposedObject(this);
       _ = exposed.Apply((dynamic)domainEvent);
 
-      this.Events.Add(domainEvent);
+      if (isNew)
+      {
+        this.Events.Add(domainEvent);
+      }
     }
 
     long IPersistableAggregate.OriginatingVersion => this.OriginatingVersion;
@@ -32,11 +37,29 @@ namespace Alex.DddBasics
     {
       if (newVersion <= this.OriginatingVersion)
       {
-        throw new InvalidOperationException(Properties.Resources.NewVersionMustBeGreaterThenPreviousVersion);
+        throw new ArgumentException(Properties.Resources.NewVersionMustBeGreaterThenPreviousVersion);
       }
       this.Events.Clear();
       this.OriginatingVersion = newVersion;
     }
 
+    void IPersistableAggregate.LoadFromEvents(IEnumerable<IDomainEvent> events, long version)
+    {
+      _ = events ?? throw new ArgumentNullException(nameof(events));
+
+      if (version < 0)
+      {
+        throw new ArgumentException(Properties.Resources.VersionMustBeGreaterThenZero);
+      }
+      if (!events.Any())
+      {
+        throw new ArgumentException(Properties.Resources.EventsMustNotBeEmpty);
+      }
+      foreach (IDomainEvent currentEvent in events)
+      {
+        this.ApplyEvent(currentEvent, false);
+      }
+      this.OriginatingVersion = version;
+    }
   }
 }

@@ -70,11 +70,29 @@ namespace Alex.DddBasics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please provide a collection of events..
+        /// </summary>
+        internal static string EventsMustNotBeEmpty {
+            get {
+                return ResourceManager.GetString("EventsMustNotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The new version must be greater than the previous version..
         /// </summary>
         internal static string NewVersionMustBeGreaterThenPreviousVersion {
             get {
                 return ResourceManager.GetString("NewVersionMustBeGreaterThenPreviousVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Negative version numbers are not allowed. The version number must be at least zero..
+        /// </summary>
+        internal static string VersionMustBeGreaterThenZero {
+            get {
+                return ResourceManager.GetString("VersionMustBeGreaterThenZero", resourceCulture);
             }
         }
     }

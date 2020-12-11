@@ -120,7 +120,13 @@
   <data name="EmptyGuidsAreNotAllowed" xml:space="preserve">
     <value>An empty GUID is not allowed.</value>
   </data>
+  <data name="EventsMustNotBeEmpty" xml:space="preserve">
+    <value>Please provide a collection of events.</value>
+  </data>
   <data name="NewVersionMustBeGreaterThenPreviousVersion" xml:space="preserve">
     <value>The new version must be greater than the previous version.</value>
+  </data>
+  <data name="VersionMustBeGreaterThenZero" xml:space="preserve">
+    <value>Negative version numbers are not allowed. The version number must be at least zero.</value>
   </data>
 </root>

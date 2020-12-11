@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Alex.DddBasics
 {
@@ -11,5 +10,6 @@ namespace Alex.DddBasics
 
     IEnumerable<IDomainEvent> GetChanges();
     void ChangesSaved(long newVersion);
+    void LoadFromEvents(IEnumerable<IDomainEvent> events, long version);
   }
 }
