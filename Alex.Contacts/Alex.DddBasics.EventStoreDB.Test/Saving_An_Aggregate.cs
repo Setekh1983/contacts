@@ -78,9 +78,24 @@ namespace Alex.DddBasics.EventStoreDB.Test
     [TestMethod]
     public void To_An_Existing_Stream()
     {
-      // TODO: Create a stream with 2 events and afterwards append an event 
-      // to the stream with the expeected originating version
-      throw new AssertInconclusiveException();
+      var homer = new Citizen();
+      var marge = new Citizen();
+
+      homer.Marry(marge);
+      var address = new Address("Springfield", "12345", "Evergreen Terrace", "7890", "USA");
+      homer.Move(address);
+
+      var repo = new Repository<Citizen>(GetEventStoreClient(), GetEventTypeMap());
+      repo.SaveAsync(homer).GetAwaiter().GetResult();
+
+      var restoredHomer = repo.LoadAsync(homer.Id).GetAwaiter().GetResult();
+      var newAddress = new Address("Shelbyville", "56789", "Shelby Street", "457", "USA");
+      restoredHomer.Move(newAddress);
+
+      repo.SaveAsync(restoredHomer).GetAwaiter().GetResult();
+
+      restoredHomer.GetChanges().Should().BeEmpty();
+      ((IPersistableAggregate)restoredHomer).OriginatingVersion.Should().Be(2);
     }
   }
 }
