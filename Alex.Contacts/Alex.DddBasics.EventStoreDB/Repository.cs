@@ -47,23 +47,22 @@ namespace Alex.DddBasics.EventStoreDB
 
     public async Task<TAggregate> LoadAsync(Guid id)
     {
-      // TODO: dispose the result
-      var result = this.EventStoreClient.ReadStreamAsync(
-        Direction.Forwards, this.GetStreamName(id), StreamPosition.Start);
-
-      if (await result.ReadState == ReadState.StreamNotFound)
+      await using (var result = this.EventStoreClient.ReadStreamAsync(
+        Direction.Forwards, this.GetStreamName(id), StreamPosition.Start))
       {
-        return null;
+        if (await result.ReadState == ReadState.StreamNotFound)
+        {
+          return null;
+        }
+        var readEventTask = GetEvents(result);
+        TAggregate aggregate = (TAggregate)Activator.CreateInstance(this.AggregateType, id);
+        IPersistableAggregate persistable = aggregate;
+
+        (var domainEvents, var version) = await readEventTask;
+        persistable.LoadFromEvents(domainEvents, version);
+        
+        return aggregate;
       }
-      var readEventTask = GetEvents(result);
-
-      TAggregate aggregate = (TAggregate)Activator.CreateInstance(this.AggregateType, id);
-      IPersistableAggregate persistable = aggregate;
-
-      (var domainEvents, var version) = await readEventTask;
-      persistable.LoadFromEvents(domainEvents, version);
-
-      return aggregate;
     }
 
     async Task<(List<IDomainEvent>, long latestEventId)> GetEvents(EventStoreClient.ReadStreamResult streamResult)
