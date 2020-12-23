@@ -8,21 +8,30 @@ namespace Alex.DddBasics
   public abstract class AggregateRoot : Entity, IPersistableAggregate
   {
     public AggregateRoot()
-      : base() => this.Events = new List<IDomainEvent>();
+      : this(Guid.NewGuid())
+    {
+    }
 
     public AggregateRoot(Guid id)
-    : base(id) => this.Events = new List<IDomainEvent>();
+    : base(id)
+    {
+      this.Events = new List<IDomainEvent>();
+      this._ExposedObject = new ExposedObject(this);
+    }
+    private dynamic _ExposedObject;
 
     List<IDomainEvent> Events { get; }
     long OriginatingVersion { get; set; }
+    long IPersistableAggregate.OriginatingVersion => this.OriginatingVersion;
 
     protected void ApplyEvent(IDomainEvent domainEvent) => this.ApplyEvent(domainEvent, true);
+
     private void ApplyEvent(IDomainEvent domainEvent, bool isNew)
     {
       _ = domainEvent ?? throw new ArgumentNullException(nameof(domainEvent));
 
-      dynamic exposed = new ExposedObject(this);
-      _ = exposed.Apply((dynamic)domainEvent);
+      //dynamic exposed = new ExposedObject(this);
+      _ = this._ExposedObject.Apply((dynamic)domainEvent);
 
       if (isNew)
       {
@@ -30,9 +39,8 @@ namespace Alex.DddBasics
       }
     }
 
-    long IPersistableAggregate.OriginatingVersion => this.OriginatingVersion;
-
     public IEnumerable<IDomainEvent> GetChanges() => new ReadOnlyCollection<IDomainEvent>(this.Events);
+
     void IPersistableAggregate.ChangesSaved(long newVersion)
     {
       if (newVersion <= this.OriginatingVersion)

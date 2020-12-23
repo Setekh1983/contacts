@@ -13,7 +13,6 @@ namespace Alex.DddBasics.Test.Domain
     }
 
     public Guid Partner { get; private set; }
-
     public Address Address { get; private set; }
 
     public void Move(Address newAddress) => this.ApplyEvent(new CitizenMovedEvent(
