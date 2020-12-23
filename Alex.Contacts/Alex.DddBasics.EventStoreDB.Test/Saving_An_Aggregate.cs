@@ -8,24 +8,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Alex.DddBasics.EventStoreDB.Test
 {
   [TestClass]
-  public class Saving_An_Aggregate
+  public class Saving_An_Aggregate : RepositoryTest
   {
-    const string CONNECTION_STRING = "esdb://admin:changit@localhost:2113?Tls=false";
-
-    protected static EventStoreClient GetEventStoreClient()
-    {
-      var settings = EventStoreClientSettings.Create(CONNECTION_STRING);
-
-      return new EventStoreClient(settings);
-    }
-
     [TestMethod]
-    public void Stores_All_Events_In_Order()
+    public void Stores_All_Events_In_Order_Of_Appearance()
     {
       var homer = new Citizen();
       var marge = new Citizen();
@@ -34,7 +26,7 @@ namespace Alex.DddBasics.EventStoreDB.Test
       var address = new Address("Springfield", "12345", "Evergreen Terrace", "7890", "USA");
       homer.Move(address);
 
-      var repo = new Repository<Citizen>(GetEventStoreClient());
+      var repo = new Repository<Citizen>(GetEventStoreClient(), GetEventTypeMap());
       repo.SaveAsync(homer).GetAwaiter().GetResult();
 
       var streamName = $"{homer.GetType().Name.ToLower()}-{homer.Id}";
@@ -74,13 +66,21 @@ namespace Alex.DddBasics.EventStoreDB.Test
       var address = new Address("Springfield", "12345", "Evergreen Terrace", "7890", "USA");
       homer.Move(address);
 
-      var repo = new Repository<Citizen>(GetEventStoreClient());
+      var repo = new Repository<Citizen>(GetEventStoreClient(), GetEventTypeMap());
       repo.SaveAsync(homer).GetAwaiter().GetResult();
 
       IEnumerable<IDomainEvent> events = homer.GetChanges();
 
       events.Should().BeEmpty();
       ((IPersistableAggregate)homer).OriginatingVersion.Should().Be(1);
+    }
+
+    [TestMethod]
+    public void To_An_Existing_Stream()
+    {
+      // TODO: Create a stream with 2 events and afterwards append an event 
+      // to the stream with the expeected originating version
+      throw new AssertInconclusiveException();
     }
   }
 }

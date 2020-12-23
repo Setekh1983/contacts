@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Alex.DddBasics.Test.AggregateRootTests
 {
   [TestClass]
-  public class An_New_Aggregate
+  public class A_New_Aggregate
   {
     [TestMethod]
     public void Has_No_Changes()
