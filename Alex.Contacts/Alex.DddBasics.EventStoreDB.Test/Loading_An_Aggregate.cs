@@ -36,7 +36,7 @@ namespace Alex.DddBasics.EventStoreDB.Test
     }
 
     [TestMethod]
-    public void With_Unknown_Id_Returns_Null()
+    public void With_An_Unknown_Id_Returns_Null()
     {
       var sut = new Repository<Citizen>(GetEventStoreClient(), GetEventTypeMap());
 

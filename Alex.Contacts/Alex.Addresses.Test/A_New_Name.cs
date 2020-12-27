@@ -9,13 +9,13 @@ namespace Alex.Addresses.Test
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 #pragma warning disable CS8604 // Possible null reference argument.
   [TestClass]
-  public class A_Name
+  public class A_New_Name
   {
     private const string MISSING_SURNAME_ERROR_MESSAGE = "Please provide a surname.";
     private const string MISSING_FORNAME_ERROR_MESSAGE = "Please provide a forename.";
 
     [TestMethod]
-    public void Can_Be_Created_With_Forename_And_Surname()
+    public void Requires_An_Forename_And_Surname()
     {
       Result<Name> sut = Name.Create("Homer", "Simpson");
 
@@ -90,14 +90,6 @@ namespace Alex.Addresses.Test
       sut.Value.LastName.Should().Be("Simpson");
       sut.Value.ToString().Should().Be("Homer Simpson");
       ((string)sut.Value).Should().Be("Homer Simpson");
-    }
-
-    [TestMethod]
-    public void Containing_Null_Can_Be_Cast_To_An_Empty_String()
-    {
-      Name? sut = null;
-
-      ((string)sut).Should().BeEmpty();
     }
   }
 #pragma warning restore CS8604 // Possible null reference argument.

@@ -9,10 +9,10 @@ namespace Alex.Addresses.Test
 #pragma warning disable CA1806 // Do not ignore method results
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
   [TestClass]
-  public class Creating_A_Contact
+  public class A_New_Contact
   {
     [TestMethod]
-    public void With_Minimal_Parameters()
+    public void Requires_A_Name()
     {
       var name = Name.Create("Homer", "Simpson").Value;
 
@@ -22,7 +22,7 @@ namespace Alex.Addresses.Test
     }
 
     [TestMethod]
-    public void Requires_A_Name()
+    public void With_Null_As_A_Name_Raises_An_Error()
     {
       Action action = () => new Contact(null);
 

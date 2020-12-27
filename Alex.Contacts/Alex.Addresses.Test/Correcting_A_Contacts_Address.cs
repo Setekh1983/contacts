@@ -9,10 +9,10 @@ namespace Alex.Addresses.Test
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
   [TestClass]
-  public class A_Contact
+  public class Correcting_A_Contacts_Address
   {
     [TestMethod]
-    public void Can_Contain_An_Address()
+    public void Requires_An_Address()
     {
       var address = Address.Create("Springfield", "12345", "Evergreen Terrace", "742").Value;
       var name = Name.Create("Homer", "Simpson").Value;
@@ -33,18 +33,6 @@ namespace Alex.Addresses.Test
       Action action = () => sut.SetAddress(null);
 
       action.Should().Throw<ArgumentNullException>();
-    }
-
-    [TestMethod]
-    public void Can_Correct_Its_Name()
-    {
-      var wrongName = Name.Create("Fred", "Simpson").Value;
-      var correctName = Name.Create("Homer", wrongName.LastName).Value;
-
-      var sut = new Contact(wrongName);
-      sut.CorrectName(correctName);
-
-      sut.Name.Should().Be(correctName);
     }
   }
 
