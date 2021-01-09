@@ -6,6 +6,9 @@ namespace Alex.Addresses
 {
   public class Contact : AggregateRoot
   {
+    Address _Address;
+    Name _Name;
+
     private Contact(Guid id)
       : base(id)
     {
@@ -16,13 +19,11 @@ namespace Alex.Addresses
     {
       _ = name ?? throw new ArgumentNullException(nameof(name));
 
-      this.Name = name;
+      this._Name = name;
 
       this.ApplyEvent(new ContactCreated(this.Id, name.FirstName, name.LastName));
     }
 
-    private Address Address { get; set; }
-    private Name Name { get; set; }
 
     public void CorrectAddress(Address address)
     {
@@ -48,17 +49,17 @@ namespace Alex.Addresses
     }
 
     private void Apply(ContactAddressAdded domainEvent) =>
-      this.Address = Address.Create(
+      this._Address = Address.Create(
         domainEvent.City, domainEvent.CityCode, domainEvent.Street, domainEvent.HouseNumber).Value;
 
     private void Apply(ContactAddressCorrected domainEvent) =>
-      this.Address = Address.Create(
+      this._Address = Address.Create(
         domainEvent.City, domainEvent.CityCode, domainEvent.Street, domainEvent.HouseNumber).Value;
 
     private void Apply(ContactNameCorrected domainEvent) =>
-      this.Name = Name.Create(domainEvent.Forename, domainEvent.LastName).Value;
+      this._Name = Name.Create(domainEvent.Forename, domainEvent.LastName).Value;
 
     private void Apply(ContactCreated domainEvent) =>
-      this.Name = Name.Create(domainEvent.Forename, domainEvent.LastName).Value;
+      this._Name = Name.Create(domainEvent.Forename, domainEvent.LastName).Value;
   }
 }

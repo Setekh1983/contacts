@@ -49,24 +49,24 @@ namespace Alex.DddBasics.EventStoreDB
 
     public async Task<TAggregate> LoadAsync(Guid id)
     {
-      await using (var result = this.EventStoreClient.ReadStreamAsync(
-        Direction.Forwards, this.GetStreamName(id), StreamPosition.Start))
-      {
-        if (await result.ReadState == ReadState.StreamNotFound)
-        {
-          return null;
-        }
-        var readEventTask = GetEvents(result);
-        TAggregate aggregate = (TAggregate)Activator.CreateInstance(this.AggregateType, 
-          BindingFlags.Instance | BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.NonPublic, 
-          null, new object[] { id }, Thread.CurrentThread.CurrentCulture);
-        IPersistableAggregate persistable = aggregate;
+      await using var result = this.EventStoreClient.ReadStreamAsync(
+        Direction.Forwards, this.GetStreamName(id), StreamPosition.Start);
 
-        (var domainEvents, var version) = await readEventTask;
-        persistable.LoadFromEvents(domainEvents, version);
-        
-        return aggregate;
+      if (await result.ReadState == ReadState.StreamNotFound)
+      {
+        return null;
       }
+      var readEventTask = this.GetEvents(result);
+      var aggregate = (TAggregate)Activator.CreateInstance(this.AggregateType,
+        BindingFlags.Instance | BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.NonPublic,
+        null, new object[] { id }, Thread.CurrentThread.CurrentCulture);
+      IPersistableAggregate persistable = aggregate;
+
+      (var domainEvents, var version) = await readEventTask;
+      persistable.LoadFromEvents(domainEvents, version);
+
+      return aggregate;
+
     }
 
     async Task<(List<IDomainEvent>, long latestEventId)> GetEvents(EventStoreClient.ReadStreamResult streamResult)
@@ -77,7 +77,7 @@ namespace Alex.DddBasics.EventStoreDB
       await foreach (var anEvent in streamResult)
       {
         Type domainEventType = this.EventTypeMap.GetType(anEvent.Event.EventType);
-        IDomainEvent domainEvent = (IDomainEvent)JsonSerializer.Deserialize(anEvent.Event.Data.Span, domainEventType);
+        var domainEvent = (IDomainEvent)JsonSerializer.Deserialize(anEvent.Event.Data.Span, domainEventType);
 
         domainEvents.Add(domainEvent);
         latestEventNumber = anEvent.Event.EventNumber;
@@ -89,11 +89,10 @@ namespace Alex.DddBasics.EventStoreDB
     {
       foreach (IDomainEvent domainEvent in events)
       {
-        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(domainEvent, domainEvent.GetType());
+        var bytes = JsonSerializer.SerializeToUtf8Bytes(domainEvent, domainEvent.GetType());
 
-        EventData data = new EventData(Uuid.NewUuid(),
-                                       domainEvent.GetType().Name.ToLower(),
-                                       new ReadOnlyMemory<byte>(bytes));
+        var data = new EventData(Uuid.NewUuid(), domainEvent.GetType().Name.ToLower(),
+          new ReadOnlyMemory<byte>(bytes));
 
         eventData.Add(data);
       }

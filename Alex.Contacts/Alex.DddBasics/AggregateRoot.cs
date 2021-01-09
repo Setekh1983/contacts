@@ -18,7 +18,7 @@ namespace Alex.DddBasics
       this.Events = new List<IDomainEvent>();
       this._ExposedObject = new ExposedObject(this);
     }
-    private dynamic _ExposedObject;
+    private readonly dynamic _ExposedObject;
 
     List<IDomainEvent> Events { get; }
     long OriginatingVersion { get; set; }
