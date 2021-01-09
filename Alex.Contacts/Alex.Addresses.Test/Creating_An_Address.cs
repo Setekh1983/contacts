@@ -19,7 +19,7 @@ namespace Alex.Addresses.Test
       sut.Value.City.Should().Be("Springfield");
       sut.Value.CityCode.Should().Be("12345");
       sut.Value.Street.Should().Be("Evergreen Terrace");
-      sut.Value.Housenumber.Should().Be("742");
+      sut.Value.HouseNumber.Should().Be("742");
 
       sut.Value.ToString().Should().Be(@"Evergreen Terrace 742
 12345 Springfield");
@@ -46,7 +46,7 @@ namespace Alex.Addresses.Test
       sut.Value.City.Should().Be("Springfield");
       sut.Value.CityCode.Should().BeNull();
       sut.Value.Street.Should().BeNull();
-      sut.Value.Housenumber.Should().BeNull();
+      sut.Value.HouseNumber.Should().BeNull();
       sut.Value.ToString().Should().Be("Springfield");
       ((string)sut.Value).Should().Be("Springfield");
     }
@@ -60,7 +60,7 @@ namespace Alex.Addresses.Test
       sut.Value.City.Should().BeNull();
       sut.Value.CityCode.Should().Be("12345");
       sut.Value.Street.Should().BeNull();
-      sut.Value.Housenumber.Should().BeNull();
+      sut.Value.HouseNumber.Should().BeNull();
       sut.Value.ToString().Should().Be("12345");
       ((string)sut.Value).Should().Be("12345");
     }
@@ -74,7 +74,7 @@ namespace Alex.Addresses.Test
       sut.Value.City.Should().BeNull();
       sut.Value.CityCode.Should().BeNull();
       sut.Value.Street.Should().Be("Evergreen Terrace");
-      sut.Value.Housenumber.Should().BeNull();
+      sut.Value.HouseNumber.Should().BeNull();
       sut.Value.ToString().Should().Be("Evergreen Terrace");
       ((string)sut.Value).Should().Be("Evergreen Terrace");
     }
@@ -88,7 +88,7 @@ namespace Alex.Addresses.Test
       sut.Value.City.Should().BeNull();
       sut.Value.CityCode.Should().BeNull();
       sut.Value.Street.Should().BeNull();
-      sut.Value.Housenumber.Should().Be("742");
+      sut.Value.HouseNumber.Should().Be("742");
       sut.Value.ToString().Should().Be("742");
       ((string)sut.Value).Should().Be("742");
     }

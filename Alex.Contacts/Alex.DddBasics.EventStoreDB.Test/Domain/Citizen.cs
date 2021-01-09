@@ -9,7 +9,7 @@ namespace Alex.DddBasics.EventStoreDB.Test.Domain
     public Citizen()
     {
     }
-    public Citizen(Guid id)
+    private Citizen(Guid id)
       : base(id)
     {
     }

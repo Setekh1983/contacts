@@ -11,10 +11,10 @@ namespace Alex.Addresses
       this.City = city;
       this.CityCode = cityCode;
       this.Street = street;
-      this.Housenumber = houseNumber;
+      this.HouseNumber = houseNumber;
     }
 
-    public string Housenumber { get; }
+    public string HouseNumber { get; }
     public string Street { get; }
     public string CityCode { get; }
     public string City { get; }
@@ -23,20 +23,20 @@ namespace Alex.Addresses
     {
       string address = this.Street;
 
-      if (!string.IsNullOrWhiteSpace(this.Housenumber))
+      if (!string.IsNullOrWhiteSpace(this.HouseNumber))
       {
         if (!string.IsNullOrWhiteSpace(this.Street))
         {
-          address = string.Concat(address, " ", this.Housenumber);
+          address = string.Concat(address, " ", this.HouseNumber);
         }
         else
         {
-          address = string.Concat(this.Housenumber);
+          address = string.Concat(this.HouseNumber);
         }
       }
       if (!string.IsNullOrWhiteSpace(this.CityCode) || !string.IsNullOrWhiteSpace(this.City))
       {
-        if (!string.IsNullOrWhiteSpace(this.Street) || !string.IsNullOrWhiteSpace(this.Housenumber))
+        if (!string.IsNullOrWhiteSpace(this.Street) || !string.IsNullOrWhiteSpace(this.HouseNumber))
         {
           address = string.Concat(address, Environment.NewLine);
         }

@@ -15,7 +15,7 @@ namespace Alex.Addresses.Test
     private const string MISSING_FORNAME_ERROR_MESSAGE = "Please provide a forename.";
 
     [TestMethod]
-    public void Requires_An_Forename_And_Surname()
+    public void Requires_A_Forename_And_Surname()
     {
       Result<Name> sut = Name.Create("Homer", "Simpson");
 

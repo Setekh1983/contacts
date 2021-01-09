@@ -1,8 +1,12 @@
+using Alex.DddBasics;
+
 using FluentAssertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Alex.Addresses.Test
 {
@@ -14,11 +18,21 @@ namespace Alex.Addresses.Test
     [TestMethod]
     public void Requires_A_Name()
     {
-      var name = Name.Create("Homer", "Simpson").Value;
+      var forename = "Homer";
+      var lastName = "Simpson";
+      var name = Name.Create(forename, lastName).Value;
 
       var sut = new Contact(name);
 
       sut.Should().NotBeNull();
+
+      IEnumerable<IDomainEvent> events = sut.GetChanges();
+
+      events.Should().HaveCount(1);
+      events.First().Should().Match<ContactCreated>(domainEvent =>
+        domainEvent.ContactId == sut.Id &&
+        domainEvent.Forename == forename &&
+        domainEvent.LastName == lastName);
     }
 
     [TestMethod]

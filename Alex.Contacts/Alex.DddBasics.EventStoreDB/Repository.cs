@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Alex.DddBasics.EventStoreDB
@@ -55,7 +57,9 @@ namespace Alex.DddBasics.EventStoreDB
           return null;
         }
         var readEventTask = GetEvents(result);
-        TAggregate aggregate = (TAggregate)Activator.CreateInstance(this.AggregateType, id);
+        TAggregate aggregate = (TAggregate)Activator.CreateInstance(this.AggregateType, 
+          BindingFlags.Instance | BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.NonPublic, 
+          null, new object[] { id }, Thread.CurrentThread.CurrentCulture);
         IPersistableAggregate persistable = aggregate;
 
         (var domainEvents, var version) = await readEventTask;
