@@ -6,8 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Alex.Addresses.Test
 {
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-#pragma warning disable CS8604 // Possible null reference argument.
   [TestClass]
   public class A_New_Name
   {
@@ -92,6 +90,4 @@ namespace Alex.Addresses.Test
       ((string)sut.Value).Should().Be("Homer Simpson");
     }
   }
-#pragma warning restore CS8604 // Possible null reference argument.
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 }

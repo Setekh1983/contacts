@@ -10,8 +10,6 @@ using System.Linq;
 
 namespace Alex.Addresses.Test
 {
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-
   [TestClass]
   public class Adding_A_Contacts_Address
   {
@@ -48,6 +46,4 @@ namespace Alex.Addresses.Test
       action.Should().Throw<ArgumentNullException>();
     }
   }
-
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 }

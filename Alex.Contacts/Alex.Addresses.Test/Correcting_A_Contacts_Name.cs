@@ -9,8 +9,6 @@ using System.Linq;
 
 namespace Alex.Addresses.Test
 {
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-
   [TestClass]
   public class Changing_A_Contacts_Name
   {
@@ -35,6 +33,4 @@ namespace Alex.Addresses.Test
         domainEvent.LastName == lastName);
     }
   }
-
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 }
