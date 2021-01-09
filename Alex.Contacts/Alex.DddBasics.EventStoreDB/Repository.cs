@@ -4,13 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Alex.DddBasics.EventStoreDB
 {
-  public class Repository<TAggregate> : IRepository<TAggregate> where TAggregate : AggregateRoot, new()
+  public class Repository<TAggregate> : IRepository<TAggregate> where TAggregate : AggregateRoot
   {
+    const BindingFlags CreationBindingFlags =
+      BindingFlags.Instance | BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.NonPublic;
+
     public Repository(EventStoreClient eventStoreClient, EventTypeRegistry eventTypeMap)
     {
       _ = eventStoreClient ?? throw new ArgumentNullException(nameof(eventStoreClient));
@@ -27,7 +29,7 @@ namespace Alex.DddBasics.EventStoreDB
     Type AggregateType { get; }
     EventTypeRegistry EventTypeMap { get; }
 
-    private string GetStreamName(Guid id) => $"{this.AggregateTypeName}-{id}";
+    string GetStreamName(Guid id) => $"{this.AggregateTypeName}-{id}";
 
     public async Task SaveAsync(TAggregate aggregate)
     {
@@ -57,9 +59,8 @@ namespace Alex.DddBasics.EventStoreDB
         return null;
       }
       var readEventTask = this.GetEvents(result);
-      var aggregate = (TAggregate)Activator.CreateInstance(this.AggregateType,
-        BindingFlags.Instance | BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.NonPublic,
-        null, new object[] { id }, Thread.CurrentThread.CurrentCulture);
+      var aggregate = CreateInstance(id);
+
       IPersistableAggregate persistable = aggregate;
 
       (var domainEvents, var version) = await readEventTask;
@@ -67,6 +68,12 @@ namespace Alex.DddBasics.EventStoreDB
 
       return aggregate;
 
+    }
+
+    TAggregate CreateInstance(Guid id)
+    {
+      return (TAggregate)Activator.CreateInstance(this.AggregateType,
+              CreationBindingFlags, null, new object[] { id }, null);
     }
 
     async Task<(List<IDomainEvent>, long latestEventId)> GetEvents(EventStoreClient.ReadStreamResult streamResult)
