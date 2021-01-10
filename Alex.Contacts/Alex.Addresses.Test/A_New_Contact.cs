@@ -16,11 +16,10 @@ namespace Alex.Addresses.Test
     [TestMethod]
     public void Requires_A_Name()
     {
-      var forename = "Homer";
-      var lastName = "Simpson";
-      var name = Name.Create(forename, lastName).Value;
+      var forename = Name.Create("Homer").Value;
+      var lastName = Name.Create("Simpson").Value;
 
-      var sut = new Contact(name);
+      var sut = new Contact(forename, lastName);
 
       sut.Should().NotBeNull();
 
@@ -34,9 +33,21 @@ namespace Alex.Addresses.Test
     }
 
     [TestMethod]
-    public void With_Null_As_A_Name_Raises_An_Error()
+    public void With_Null_As_A_Forename_Raises_An_Error()
     {
-      Action action = () => new Contact(null);
+      var lastName = Name.Create("Simpson").Value;
+
+      Action action = () => new Contact(null, lastName);
+
+      action.Should().Throw<ArgumentNullException>();
+    }
+
+    [TestMethod]
+    public void With_Null_As_A_LastName_Raises_An_Error()
+    {
+      var firstName = Name.Create("Homer").Value;
+
+      Action action = () => new Contact(firstName, null);
 
       action.Should().Throw<ArgumentNullException>();
     }

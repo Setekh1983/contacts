@@ -2,37 +2,25 @@
 
 namespace Alex.Addresses
 {
-  public sealed record Name
+  public sealed class Name : SimpleValueObject<string>
   {
-    private Name(string firstName, string lastName)
+    private Name(string value)
+      :base(value)
     {
-      this.FirstName = firstName;
-      this.LastName = lastName;
     }
 
-    public string FirstName { get; }
-    public string LastName { get; }
-
-    public override string ToString()
-      => string.Concat(this.FirstName, " ", this.LastName);
-
     public static implicit operator string(Name name)
-     => (name is null) ? string.Empty : name.ToString();
+     => (name is null) ? string.Empty : name.Value;
 
-    public static Result<Name> Create(string forename, string surname)
+    public static Result<Name> Create(string name)
     {
-      if (string.IsNullOrWhiteSpace(forename))
+      if (string.IsNullOrWhiteSpace(name))
       {
-        return Result.Failure<Name>(Properties.Resources.ForenameIsMissing);
+        return Result.Failure<Name>(Properties.Resources.MissingNameValue);
       }
-      if (string.IsNullOrWhiteSpace(surname))
-      {
-        return Result.Failure<Name>(Properties.Resources.SurnameIsMissing);
-      }
-      forename = forename.Trim();
-      surname = surname.Trim();
-
-      return Result.Success(new Name(forename, surname));
+      name = name.Trim();
+      
+      return Result.Success(new Name(name));
     }
   }
 }

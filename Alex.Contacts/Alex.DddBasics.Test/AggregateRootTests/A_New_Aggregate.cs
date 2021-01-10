@@ -25,7 +25,7 @@ namespace Alex.DddBasics.Test.AggregateRootTests
     {
       IPersistableAggregate sut = new Citizen();
 
-      sut.OriginatingVersion.Should().Be(0);
+      sut.OriginatingVersion.Should().Be(-1);
     }
   }
 }

@@ -15,13 +15,12 @@ namespace Alex.Addresses.Test
     [TestMethod]
     public void Requires_A_Name()
     {
-      var firstName = "Homer";
-      var lastName = "Simpson";
-      var wrongName = Name.Create("Fred", lastName).Value;
-      var correctName = Name.Create(firstName, wrongName.LastName).Value;
+      var firstName = Name.Create("Homer").Value;
+      var lastName = Name.Create("Simpson").Value;
+      var wrongName = Name.Create("Fred").Value;
 
-      var sut = new Contact(wrongName);
-      sut.CorrectName(correctName);
+      var sut = new Contact(wrongName, lastName);
+      sut.CorrectName(firstName, lastName);
 
       IEnumerable<IDomainEvent> events = sut.GetChanges();
 

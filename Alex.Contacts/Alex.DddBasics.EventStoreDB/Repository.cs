@@ -35,7 +35,7 @@ namespace Alex.DddBasics.EventStoreDB
     {
       IPersistableAggregate persistable = aggregate;
 
-      StreamRevision revision = persistable.OriginatingVersion == 0
+      StreamRevision revision = persistable.OriginatingVersion == -1
         ? StreamRevision.None
         : StreamRevision.FromInt64(persistable.OriginatingVersion);
 

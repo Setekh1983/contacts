@@ -8,9 +8,7 @@ namespace Alex.DddBasics
   public abstract class AggregateRoot : Entity, IPersistableAggregate
   {
     public AggregateRoot()
-      : this(Guid.NewGuid())
-    {
-    }
+      : this(Guid.NewGuid()) => this.OriginatingVersion = -1;
 
     public AggregateRoot(Guid id)
     : base(id)

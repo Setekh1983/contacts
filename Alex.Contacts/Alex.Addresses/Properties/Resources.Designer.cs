@@ -61,20 +61,11 @@ namespace Alex.Addresses.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please provide a forename..
+        ///   Looks up a localized string similar to Please provide a value..
         /// </summary>
-        internal static string ForenameIsMissing {
+        internal static string MissingNameValue {
             get {
-                return ResourceManager.GetString("ForenameIsMissing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Please provide a surname..
-        /// </summary>
-        internal static string SurnameIsMissing {
-            get {
-                return ResourceManager.GetString("SurnameIsMissing", resourceCulture);
+                return ResourceManager.GetString("MissingNameValue", resourceCulture);
             }
         }
     }

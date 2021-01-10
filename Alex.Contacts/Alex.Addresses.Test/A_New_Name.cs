@@ -9,85 +9,55 @@ namespace Alex.Addresses.Test
   [TestClass]
   public class A_New_Name
   {
-    private const string MISSING_SURNAME_ERROR_MESSAGE = "Please provide a surname.";
-    private const string MISSING_FORNAME_ERROR_MESSAGE = "Please provide a forename.";
-
+    private const string MISSING_VALUE_ERROR_MESSAGE = "Please provide a value.";
+    
     [TestMethod]
-    public void Requires_A_Forename_And_Surname()
+    public void Requires_A_Name()
     {
-      Result<Name> sut = Name.Create("Homer", "Simpson");
+      Result<Name> sut = Name.Create("Homer");
 
       sut.Should().NotBeNull();
-      sut.Value.FirstName.Should().Be("Homer");
-      sut.Value.LastName.Should().Be("Simpson");
-      sut.Value.ToString().Should().Be("Homer Simpson");
-      ((string)sut.Value).Should().Be("Homer Simpson");
+      sut.Value.Value.Should().Be("Homer");
+      sut.Value.ToString().Should().Be("Homer");
+      ((string)sut.Value).Should().Be("Homer");
     }
 
     [TestMethod]
-    public void Cannot_Be_Created_With_An_Empty_Forename()
+    public void Cannot_Be_Created_With_An_Empty_Value()
     {
-      Result<Name> sut = Name.Create("", "Simpson");
+      Result<Name> sut = Name.Create("");
 
       sut.IsFailure.Should().BeTrue();
-      sut.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
+      sut.Error.Should().Be(MISSING_VALUE_ERROR_MESSAGE);
     }
 
     [TestMethod]
-    public void Cannot_Be_Created_With_Null_As_A_Forename()
+    public void Cannot_Be_Created_With_Null_As_A_Value()
     {
-      Result<Name> sut = Name.Create(null, "Simpson");
+      Result<Name> sut = Name.Create(null);
 
       sut.IsFailure.Should().BeTrue();
-      sut.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
+      sut.Error.Should().Be(MISSING_VALUE_ERROR_MESSAGE);
     }
 
     [TestMethod]
-    public void Cannot_Be_Created_With_Whitespace_As_A_Forename()
+    public void Cannot_Be_Created_With_Whitespace_As_A_Value()
     {
-      Result<Name> sut = Name.Create("   ", "Simpson");
+      Result<Name> sut = Name.Create("   ");
 
       sut.IsFailure.Should().BeTrue();
-      sut.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
+      sut.Error.Should().Be(MISSING_VALUE_ERROR_MESSAGE);
     }
 
     [TestMethod]
-    public void Cannot_Be_Created_With_An_Empty_Surname()
+    public void Removes_Trailing_And_Leading_Spaces_From_Value()
     {
-      Result<Name> sut = Name.Create("Homer", "");
-
-      sut.IsFailure.Should().BeTrue();
-      sut.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
-    }
-
-    [TestMethod]
-    public void Cannot_Be_Created_With_Null_As_A_Surname()
-    {
-      Result<Name> sut = Name.Create("Homer", null);
-
-      sut.IsFailure.Should().BeTrue();
-      sut.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
-    }
-
-    [TestMethod]
-    public void Cannot_Be_Created_With_Whitespace_As_A_Surname()
-    {
-      Result<Name> sut = Name.Create("Homer", "   ");
-
-      sut.IsFailure.Should().BeTrue();
-      sut.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
-    }
-
-    [TestMethod]
-    public void Removes_Trailing_And_Leading_Spaces_From_Forename_And_Surname()
-    {
-      Result<Name> sut = Name.Create("    Homer   ", "   Simpson    ");
+      Result<Name> sut = Name.Create("    Homer   ");
 
       sut.IsSuccess.Should().BeTrue();
-      sut.Value.FirstName.Should().Be("Homer");
-      sut.Value.LastName.Should().Be("Simpson");
-      sut.Value.ToString().Should().Be("Homer Simpson");
-      ((string)sut.Value).Should().Be("Homer Simpson");
+      sut.Value.Value.Should().Be("Homer");
+      sut.Value.ToString().Should().Be("Homer");
+      ((string)sut.Value).Should().Be("Homer");
     }
   }
 }
