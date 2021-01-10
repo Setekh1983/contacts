@@ -5,9 +5,6 @@ using CSharpFunctionalExtensions;
 
 using Microsoft.AspNetCore.Mvc;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Alex.Contacts.Service.Controllers
@@ -18,6 +15,7 @@ namespace Alex.Contacts.Service.Controllers
 
     public IRepository<Contact> Repository { get; }
 
+    [HttpPost]
     public async Task<ActionResult> CreateContact(CreateContactCommand command)
     {
       if (command is null)
@@ -46,6 +44,31 @@ namespace Alex.Contacts.Service.Controllers
       await this.Repository.SaveAsync(contact);
 
       return this.Created("dummyRoute", new { Id = contact.Id });
+    }
+
+    public async Task<ActionResult> AddAddress(AddAddressCommand command)
+    {
+      if (command is null)
+      {
+        return this.BadRequest();
+      }
+      Contact contact = await this.Repository.LoadAsync(command.ContactId);
+
+      if (contact is null)
+      {
+        return this.NotFound();
+      }
+      Result<Address> addressResult = Address.Create(command.City, command.CityCode, command.Street, command.HouseNumber);
+
+      if (addressResult.IsFailure)
+      {
+        this.ModelState.AddModelError("address", addressResult.Error);
+        return this.UnprocessableEntity(this.ModelState);
+      }
+      contact.AddAddress(addressResult.Value);
+      await this.Repository.SaveAsync(contact);
+
+      return this.Ok();
     }
   }
 }

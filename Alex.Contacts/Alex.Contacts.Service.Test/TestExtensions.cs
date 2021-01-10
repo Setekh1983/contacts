@@ -18,7 +18,7 @@ namespace Alex.Contacts.Service.Test
       unprocessableEntity.Value.Should().NotBeNull();
       unprocessableEntity.Value.Should().BeOfType<SerializableError>();
 
-      SerializableError value = (SerializableError)unprocessableEntity.Value;
+      var value = (SerializableError)unprocessableEntity.Value;
 
       value.First().Key.Should().Be(key);
       ((IEnumerable<string>)value.First().Value).First().Should().Be(message);
