@@ -14,23 +14,32 @@ using System.Linq;
 namespace Alex.Contacts.Service.Test
 {
   [TestClass]
-  public class Adding_A_Contacts_Address : ControllerTestBase
+  public class Correcting_A_Contacts_Address : ControllerTestBase
   {
+    static Guid CreateContactWithAddress()
+    {
+      Guid contactId = CreateContact("Homer", "Simpson");
+      var controller = new ContactController(EventProvider.GetRepository<Contact>());
+
+      _ = controller.AddAddress(new AddAddressCommand(contactId, "Shelbyville", "56789", "Shelby Street", "3456"));
+
+      return contactId;
+    }
     [TestMethod]
     public void Requires_An_Address()
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
-      Guid contactId = CreateContact("Homer", "Simpson");
-      var command = new AddAddressCommand(contactId, "Springfield", "12345", "Evergreen Terrace", "1234");
+      Guid contactId = CreateContactWithAddress();
+      var command = new CorrectAddressCommand(contactId, "Springfield", "12345", "Evergreen Terrace", "1234");
       var sut = new ContactController(repository);
 
-      ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
+      ActionResult result = sut.CorrectAddress(command).GetAwaiter().GetResult();
 
       result.Should().BeOfType<OkResult>();
       List<IDomainEvent> domainEvents = EventProvider.GetEvents<Contact>(contactId).GetAwaiter().GetResult();
 
       domainEvents.Should().HaveCount(2);
-      domainEvents.Last().Should().Match<ContactAddressAdded>(domainEvent =>
+      domainEvents.Last().Should().Match<ContactAddressCorrected>(domainEvent =>
         domainEvent.City == command.City &&
         domainEvent.CityCode == command.CityCode &&
         domainEvent.Street == command.Street &&
@@ -44,7 +53,7 @@ namespace Alex.Contacts.Service.Test
 
       var sut = new ContactController(repository);
 
-      ActionResult result = sut.AddAddress(null).GetAwaiter().GetResult();
+      ActionResult result = sut.CorrectAddress(null).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
       result.Should().BeOfType<BadRequestResult>();
@@ -55,10 +64,10 @@ namespace Alex.Contacts.Service.Test
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
 
-      var command = new AddAddressCommand(Guid.Empty, "Springfield", "12345", "Evergreen Terrace", "1234");
+      var command = new CorrectAddressCommand(Guid.Empty, "Springfield", "12345", "Evergreen Terrace", "1234");
 
       var sut = new ContactController(repository);
-      ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
+      ActionResult result = sut.CorrectAddress(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
       result.Should().BeOfType<NotFoundResult>();
@@ -69,10 +78,10 @@ namespace Alex.Contacts.Service.Test
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
       var contactId = Guid.NewGuid();
-      var command = new AddAddressCommand(contactId, "Springfield", "12345", "Evergreen Terrace", "1234");
+      var command = new CorrectAddressCommand(contactId, "Springfield", "12345", "Evergreen Terrace", "1234");
       var sut = new ContactController(repository);
 
-      ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
+      ActionResult result = sut.CorrectAddress(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
       result.Should().BeOfType<NotFoundResult>();
@@ -84,10 +93,10 @@ namespace Alex.Contacts.Service.Test
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
       Guid contactId = CreateContact("Homer", "Simpson");
 
-      var command = new AddAddressCommand(contactId, default, default, default, default);
+      var command = new CorrectAddressCommand(contactId, default, default, default, default);
 
       var sut = new ContactController(repository);
-      ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
+      ActionResult result = sut.CorrectAddress(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
       result.ShouldBeUnprocessableEntityResult("address", "Please provide at least one value of the address.");
