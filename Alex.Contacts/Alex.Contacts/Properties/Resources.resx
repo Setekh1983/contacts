@@ -120,6 +120,9 @@
   <data name="ForenameIsMissing" xml:space="preserve">
     <value>Please provide a forename.</value>
   </data>
+  <data name="NoNameToCorrect" xml:space="preserve">
+    <value>There is no address to correct.</value>
+  </data>
   <data name="SurnameIsMissing" xml:space="preserve">
     <value>Please provide a surname.</value>
   </data>

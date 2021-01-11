@@ -1,5 +1,7 @@
 using Alex.DddBasics;
 
+using CSharpFunctionalExtensions;
+
 using FluentAssertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,10 +13,10 @@ using System.Linq;
 namespace Alex.Contacts.ContactTest
 {
   [TestClass]
-  public class Correcting_A_Contacts_Address
+  public class Validating_Whether_An_Address_Can_Be_Corrected
   {
     [TestMethod]
-    public void Requires_An_Address()
+    public void Confirms_When_An_Address_Exists_Already()
     {
       var oldAddress = Address.Create("Shelbyville", "56789", "Shelby Street", "8745").Value;
       var newAddress = Address.Create("Springfield", "12345", "Evergreen Terrace", "742").Value;
@@ -22,32 +24,23 @@ namespace Alex.Contacts.ContactTest
       var sut = new Contact(name);
 
       sut.AddAddress(oldAddress);
-      sut.CorrectAddress(newAddress);
+      Result result = sut.CanCorrectAddress(newAddress);
 
-      IEnumerable<IDomainEvent> events = sut.GetChanges();
-
-      events.Should().HaveCount(3);
-      events.First().Should().BeOfType<ContactCreated>();
-      events.Last().Should().Match<ContactAddressCorrected>(domainEvents =>
-        domainEvents.ContactId == sut.Id &&
-        domainEvents.City == newAddress.City &&
-        domainEvents.CityCode == newAddress.CityCode &&
-        domainEvents.Street == newAddress.Street &&
-        domainEvents.HouseNumber == newAddress.HouseNumber);
+      result.IsSuccess.Should().BeTrue();
     }
     [TestMethod]
-    public void When_No_Address_Exists_Raises_An_Error()
+    public void Declines_When_No_Address_Exists_Already()
     {
-      var address = Address.Create("Springfield", "12345", "Evergreen Terrace", "742").Value;
+      var newAddress = Address.Create("Springfield", "12345", "Evergreen Terrace", "742").Value;
       var name = Name.Create("Homer", "Simpson").Value;
       var sut = new Contact(name);
 
-      Action action = () => sut.CorrectAddress(address);
+      Result result = sut.CanCorrectAddress(newAddress);
 
-      action.Should().Throw<InvalidOperationException>()
-        .WithMessage("There is no address to correct.");
+      result.IsFailure.Should().BeTrue();
+      result.Error.Should().Be("There is no address to correct.");
     }
-
+    
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
     [TestMethod]
@@ -56,7 +49,7 @@ namespace Alex.Contacts.ContactTest
       var name = Name.Create("Homer", "Simpson").Value;
       var sut = new Contact(name);
 
-      Action action = () => sut.CorrectAddress(null);
+      Action action = () => sut.CanCorrectAddress(null);
 
       action.Should().Throw<ArgumentNullException>();
     }

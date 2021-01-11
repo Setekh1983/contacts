@@ -21,7 +21,8 @@ namespace Alex.Contacts.Service.Test
       Guid contactId = CreateContact("Homer", "Simpson");
       var controller = new ContactController(EventProvider.GetRepository<Contact>());
 
-      _ = controller.AddAddress(new AddAddressCommand(contactId, "Shelbyville", "56789", "Shelby Street", "3456"));
+      _ = controller.AddAddress(new AddAddressCommand(contactId, "Shelbyville", "56789", "Shelby Street", "3456"))
+        .GetAwaiter().GetResult();
 
       return contactId;
     }
@@ -38,12 +39,24 @@ namespace Alex.Contacts.Service.Test
       result.Should().BeOfType<OkResult>();
       List<IDomainEvent> domainEvents = EventProvider.GetEvents<Contact>(contactId).GetAwaiter().GetResult();
 
-      domainEvents.Should().HaveCount(2);
+      domainEvents.Should().HaveCount(3);
       domainEvents.Last().Should().Match<ContactAddressCorrected>(domainEvent =>
         domainEvent.City == command.City &&
         domainEvent.CityCode == command.CityCode &&
         domainEvent.Street == command.Street &&
         domainEvent.HouseNumber == command.HouseNumber);
+    }
+    [TestMethod]
+    public void Without_Existing_Name_Causes_Unprocessable_Entity()
+    {
+      Guid contactId = CreateContact("Homer", "Simpson");
+      var sut = new ContactController(EventProvider.GetRepository<Contact>());
+      var command = new CorrectAddressCommand(contactId, "Springfield", "12345", "Evergreen Terrace", "1234");
+
+      ActionResult result = sut.CorrectAddress(command).GetAwaiter().GetResult();
+
+      result.Should().NotBeNull();
+      result.ShouldBeUnprocessableEntityResult("address", "There is no address to correct.");
     }
 
     [TestMethod]

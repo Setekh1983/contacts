@@ -70,6 +70,15 @@ namespace Alex.Contacts.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no address to correct..
+        /// </summary>
+        internal static string NoNameToCorrect {
+            get {
+                return ResourceManager.GetString("NoNameToCorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please provide a surname..
         /// </summary>
         internal static string SurnameIsMissing {

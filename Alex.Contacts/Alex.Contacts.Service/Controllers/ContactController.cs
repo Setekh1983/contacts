@@ -83,6 +83,13 @@ namespace Alex.Contacts.Service.Controllers
         this.ModelState.AddModelError("address", addressResult.Error);
         return this.UnprocessableEntity(this.ModelState);
       }
+      Result canCorrectAddress = contact.CanCorrectAddress(addressResult.Value);
+
+      if (canCorrectAddress.IsFailure)
+      {
+        this.ModelState.AddModelError("address", canCorrectAddress.Error);
+        return this.UnprocessableEntity(this.ModelState);
+      }
       contact.CorrectAddress(addressResult.Value);
       await this.Repository.SaveAsync(contact);
 
