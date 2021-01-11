@@ -4,7 +4,7 @@ using System;
 
 namespace Alex.Addresses
 {
-  public class Contact : AggregateRoot
+  public sealed class Contact : AggregateRoot
   {
     Address _Address;
     Name _Name;
