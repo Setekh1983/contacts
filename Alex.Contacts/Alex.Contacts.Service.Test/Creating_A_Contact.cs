@@ -1,3 +1,4 @@
+using Alex.Contacts.Service.Commands;
 using Alex.Contacts.Service.Controllers;
 using Alex.DddBasics;
 
@@ -21,13 +22,7 @@ namespace Alex.Contacts.Service.Test
     public void Requires_A_Name()
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
-
-      var command = new CreateContactCommand()
-      {
-        Forename = "Homer",
-        LastName = "Simpson"
-      };
-
+      var command = new CreateContactCommand("Homer", "Simpson");
       var sut = new ContactController(repository);
 
       var result = (CreatedResult)sut.CreateContact(command).GetAwaiter().GetResult();
@@ -38,7 +33,7 @@ namespace Alex.Contacts.Service.Test
       domainEvents.Should().HaveCount(1);
       domainEvents.First().Should().Match<ContactCreated>(domainEvent =>
         domainEvent.Forename == command.Forename &&
-        domainEvent.LastName == command.LastName);
+        domainEvent.LastName == command.Surname);
     }
 
     [TestMethod]
@@ -58,13 +53,9 @@ namespace Alex.Contacts.Service.Test
     public void With_Missing_Forename_Causes_Unprocessable_Enttiy_Result()
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
+      var command = new CreateContactCommand(string.Empty, "Simpson");
       var sut = new ContactController(repository);
-
-      var command = new CreateContactCommand()
-      {
-        LastName = "Simpson"
-      };
-
+      
       ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
@@ -76,11 +67,8 @@ namespace Alex.Contacts.Service.Test
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
       var sut = new ContactController(repository);
-
-      var command = new CreateContactCommand()
-      {
-        Forename = "Homer"
-      };
+      var command = new CreateContactCommand("Homer", string.Empty);
+      
       ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();

@@ -1,3 +1,4 @@
+using Alex.Contacts.Service.Commands;
 using Alex.Contacts.Service.Controllers;
 using Alex.DddBasics;
 
@@ -19,16 +20,10 @@ namespace Alex.Contacts.Service.Test
 #pragma warning disable CS8605 // Unboxing a possibly null value.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
-    private static Guid CraeteContact(string forename, string lastName)
+    private static Guid CraeteContact(string forename, string surname)
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
-
-      var command = new CreateContactCommand()
-      {
-        Forename = forename,
-        LastName = lastName
-      };
-
+      var command = new CreateContactCommand(forename, surname);
       var sut = new ContactController(repository);
 
       var result = (CreatedResult)sut.CreateContact(command).GetAwaiter().GetResult();
@@ -45,16 +40,7 @@ namespace Alex.Contacts.Service.Test
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
       Guid contactId = CraeteContact("Homer", "Simpson");
-
-      var command = new AddAddressCommand()
-      {
-        ContactId = contactId,
-        City = "Springfield",
-        CityCode = "12345",
-        Street = "Evergreen Terrace",
-        HouseNumber = "1234"
-      };
-
+      var command = new AddAddressCommand(contactId, "Springfield", "12345", "Evergreen Terrace", "1234");
       var sut = new ContactController(repository);
 
       ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
@@ -87,14 +73,8 @@ namespace Alex.Contacts.Service.Test
     public void With_Missing_Contact_Id_Causes_Not_Found_Result()
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
-      
-      var command = new AddAddressCommand()
-      {
-        City = "Springfield",
-        CityCode = "12345",
-        Street = "Evergreen Terrace",
-        HouseNumber = "1234"
-      };
+
+      var command = new AddAddressCommand(Guid.Empty, "Springfield", "12345", "Evergreen Terrace", "1234");
 
       var sut = new ContactController(repository);
       ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
@@ -108,17 +88,9 @@ namespace Alex.Contacts.Service.Test
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
       var contactId = Guid.NewGuid();
-
-      var command = new AddAddressCommand()
-      {
-        ContactId = contactId,
-        City = "Springfield",
-        CityCode = "12345",
-        Street = "Evergreen Terrace",
-        HouseNumber = "1234"
-      };
-
+      var command = new AddAddressCommand(contactId, "Springfield", "12345", "Evergreen Terrace", "1234");
       var sut = new ContactController(repository);
+
       ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
@@ -131,10 +103,7 @@ namespace Alex.Contacts.Service.Test
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
       Guid contactId = CraeteContact("Homer", "Simpson");
 
-      var command = new AddAddressCommand()
-      {
-        ContactId = contactId
-      };
+      var command = new AddAddressCommand(contactId, default, default, default, default);
 
       var sut = new ContactController(repository);
       ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();

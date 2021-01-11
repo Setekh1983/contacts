@@ -1,4 +1,5 @@
-﻿using Alex.DddBasics;
+﻿using Alex.Contacts.Service.Commands;
+using Alex.DddBasics;
 
 using CSharpFunctionalExtensions;
 
@@ -22,7 +23,7 @@ namespace Alex.Contacts.Service.Controllers
       {
         return this.BadRequest();
       }
-      Result<Name> nameResult = Name.Create(command.Forename, command.LastName);
+      Result<Name> nameResult = Name.Create(command.Forename, command.Surname);
 
       if (nameResult.IsFailure)
       {
