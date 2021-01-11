@@ -17,10 +17,8 @@ namespace Alex.Addresses.Test
     public void Requires_An_Address()
     {
       var address = Address.Create("Springfield", "12345", "Evergreen Terrace", "742").Value;
-      var firstName = Name.Create("Homer").Value;
-      var lastName = Name.Create("Simpson").Value;
-
-      var sut = new Contact(firstName, lastName);
+      var name = Name.Create("Homer", "Simpson").Value;
+      var sut = new Contact(name);
 
       sut.CorrectAddress(address);
 
@@ -39,10 +37,8 @@ namespace Alex.Addresses.Test
     [TestMethod]
     public void Does_Not_Accept_A_Null_Address()
     {
-      var firstName = Name.Create("Homer").Value;
-      var lastName = Name.Create("Simpson").Value;
-
-      var sut = new Contact(firstName, lastName);
+      var name = Name.Create("Homer", "Simpson").Value;
+      var sut = new Contact(name);
 
       Action action = () => sut.CorrectAddress(null);
 

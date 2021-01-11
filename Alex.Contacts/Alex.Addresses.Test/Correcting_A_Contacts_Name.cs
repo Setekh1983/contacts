@@ -15,21 +15,22 @@ namespace Alex.Addresses.Test
     [TestMethod]
     public void Requires_A_Name()
     {
-      var firstName = Name.Create("Homer").Value;
-      var lastName = Name.Create("Simpson").Value;
-      var wrongName = Name.Create("Fred").Value;
+      var name = Name.Create("Homer", "Simpson").Value;
+      var wrongName = Name.Create("Fred", "Simpson").Value;
 
-      var sut = new Contact(wrongName, lastName);
-      sut.CorrectName(firstName, lastName);
+      var sut = new Contact(wrongName);
+      sut.CorrectName(name);
 
       IEnumerable<IDomainEvent> events = sut.GetChanges();
 
       events.Should().HaveCount(2);
-      events.First().Should().BeOfType<ContactCreated>();
+      events.First().Should().Match<ContactCreated>(domainEvent =>
+        domainEvent.Forename == wrongName.FirstName &&
+        domainEvent.LastName == wrongName.LastName);
       events.Last().Should().Match<ContactNameCorrected>(domainEvent =>
         domainEvent.ContactId == sut.Id &&
-        domainEvent.Forename == firstName &&
-        domainEvent.LastName == lastName);
+        domainEvent.Forename == name.FirstName &&
+        domainEvent.LastName == name.LastName);
     }
   }
 }

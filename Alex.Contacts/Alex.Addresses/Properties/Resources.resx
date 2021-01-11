@@ -117,7 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MissingNameValue" xml:space="preserve">
-    <value>Please provide a value.</value>
+  <data name="ForenameIsMissing" xml:space="preserve">
+    <value>Please provide a forename.</value>
+  </data>
+  <data name="SurnameIsMissing" xml:space="preserve">
+    <value>Please provide a surname.</value>
   </data>
 </root>

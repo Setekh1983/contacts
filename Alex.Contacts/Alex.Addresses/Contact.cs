@@ -7,24 +7,21 @@ namespace Alex.Addresses
   public class Contact : AggregateRoot
   {
     Address _Address;
-    Name _FirstName;
-    Name _LastName;
+    Name _Name;
 
     private Contact(Guid id)
       : base(id)
     {
 
     }
-    public Contact(Name firstName, Name lastName)
+    public Contact(Name name)
       : base()
     {
-      _ = firstName ?? throw new ArgumentNullException(nameof(firstName));
-      _ = lastName ?? throw new ArgumentNullException(nameof(lastName));
-
-      this._FirstName = firstName;
-      this._LastName = lastName;
-
-      this.ApplyEvent(new ContactCreated(this.Id, firstName, lastName));
+      _ = name ?? throw new ArgumentNullException(nameof(name));
+      
+      this._Name = name;
+      
+      this.ApplyEvent(new ContactCreated(this.Id, name.FirstName, name.LastName));
     }
 
     public void CorrectAddress(Address address)
@@ -43,12 +40,11 @@ namespace Alex.Addresses
         this.Id, address.City, address.CityCode, address.Street, address.HouseNumber));
     }
 
-    public void CorrectName(Name firstName, Name lastName)
+    public void CorrectName(Name name)
     {
-      _ = firstName ?? throw new ArgumentNullException(nameof(firstName));
-      _ = lastName ?? throw new ArgumentNullException(nameof(lastName));
+      _ = name ?? throw new ArgumentNullException(nameof(name));
 
-      this.ApplyEvent(new ContactNameCorrected(this.Id, firstName, lastName));
+      this.ApplyEvent(new ContactNameCorrected(this.Id, name.FirstName, name.LastName));
     }
 
     private void Apply(ContactAddressAdded domainEvent) =>
@@ -59,16 +55,10 @@ namespace Alex.Addresses
       this._Address = Address.Create(
         domainEvent.City, domainEvent.CityCode, domainEvent.Street, domainEvent.HouseNumber).Value;
 
-    private void Apply(ContactNameCorrected domainEvent)
-    {
-      this._FirstName = Name.Create(domainEvent.Forename).Value;
-      this._LastName = Name.Create(domainEvent.LastName).Value;
-    }
+    private void Apply(ContactNameCorrected domainEvent) =>
+      this._Name = Name.Create(domainEvent.Forename, domainEvent.LastName).Value;
 
-    private void Apply(ContactCreated domainEvent)
-    {
-      this._FirstName = Name.Create(domainEvent.Forename).Value;
-      this._LastName = Name.Create(domainEvent.LastName).Value;
-    }
+    private void Apply(ContactCreated domainEvent) =>
+      this._Name = Name.Create(domainEvent.Forename, domainEvent.LastName).Value;
   }
 }

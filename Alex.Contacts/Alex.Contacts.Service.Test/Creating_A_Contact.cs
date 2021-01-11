@@ -67,7 +67,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.ShouldBeUnprocessableEntityResult("Forename", "Please provide a value.");
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a forename.");
     }
 
     [TestMethod]
@@ -83,7 +83,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.ShouldBeUnprocessableEntityResult("LastName", "Please provide a value.");
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a surname.");
     }
   }
 }

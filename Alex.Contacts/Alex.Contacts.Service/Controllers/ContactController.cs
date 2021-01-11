@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Alex.Contacts.Service.Controllers
 {
+  [ApiController]
   public class ContactController : ControllerBase
   {
     public ContactController(IRepository<Contact> repository) => this.Repository = repository;
@@ -22,30 +23,20 @@ namespace Alex.Contacts.Service.Controllers
       {
         return this.BadRequest();
       }
-      Result<Name> forenameResult = Name.Create(command.Forename);
+      Result<Name> nameResult = Name.Create(command.Forename, command.LastName);
 
-      if (forenameResult.IsFailure)
+      if (nameResult.IsFailure)
       {
-        this.ModelState.AddModelError(nameof(command.Forename), forenameResult.Error);
-      }
-      Result<Name> lastNameResult = Name.Create(command.LastName);
-
-      if (lastNameResult.IsFailure)
-      {
-        this.ModelState.AddModelError(nameof(command.LastName), lastNameResult.Error);
-      }
-      Result result = Result.Combine(forenameResult, lastNameResult);
-
-      if (result.IsFailure)
-      {
+        this.ModelState.AddModelError("name", nameResult.Error);
         return this.UnprocessableEntity(this.ModelState);
       }
-      var contact = new Contact(forenameResult.Value, lastNameResult.Value);
+      var contact = new Contact(nameResult.Value);
       await this.Repository.SaveAsync(contact);
 
       return this.Created("dummyRoute", new { Id = contact.Id });
     }
 
+    [HttpPost]
     public async Task<ActionResult> AddAddress(AddAddressCommand command)
     {
       if (command is null)
