@@ -32,7 +32,7 @@ namespace Alex.Contacts.Service.Controllers
       var contact = new Contact(nameResult.Value);
       await this.Repository.SaveAsync(contact);
 
-      return this.Created("dummyRoute", new { Id = contact.Id });
+      return this.Created("dummyRoute", new { contact.Id });
     }
 
     [HttpPost]

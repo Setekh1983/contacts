@@ -6,7 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Alex.Contacts.Test
 {
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 #pragma warning disable CS8604 // Possible null reference argument.
   [TestClass]
   public class Casting_A_Name
@@ -20,5 +19,4 @@ namespace Alex.Contacts.Test
     }
   }
 #pragma warning restore CS8604 // Possible null reference argument.
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 }

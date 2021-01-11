@@ -32,6 +32,8 @@ namespace Alex.Contacts.Service.Test
       return EventTypeRegistry;
     }
 
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+
     public async static Task<List<IDomainEvent>> GetEvents<TStream>(Guid aggregateId)
     {
       var streamName = $"{typeof(TStream).Name.ToLower()}-{aggregateId}";
@@ -52,9 +54,9 @@ namespace Alex.Contacts.Service.Test
       return domainEvents;
     }
 
-    public static IRepository<TAggregate> GetRepository<TAggregate>() where TAggregate : AggregateRoot
-    {
-      return new Repository<TAggregate>(GetEventStoreClient(), GetEventTypeMap());
-    }
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+
+    public static IRepository<TAggregate> GetRepository<TAggregate>() where TAggregate : AggregateRoot =>
+      new Repository<TAggregate>(GetEventStoreClient(), GetEventTypeMap());
   }
 }

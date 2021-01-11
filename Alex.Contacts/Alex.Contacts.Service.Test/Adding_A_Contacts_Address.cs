@@ -15,11 +15,15 @@ namespace Alex.Contacts.Service.Test
   [TestClass]
   public class Adding_A_Contacts_Address
   {
-    private Guid CraeteContact(string forename, string lastName)
+
+#pragma warning disable CS8605 // Unboxing a possibly null value.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
+    private static Guid CraeteContact(string forename, string lastName)
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
 
-      CreateContactCommand command = new CreateContactCommand()
+      var command = new CreateContactCommand()
       {
         Forename = forename,
         LastName = lastName
@@ -28,16 +32,19 @@ namespace Alex.Contacts.Service.Test
       var sut = new ContactController(repository);
 
       var result = (CreatedResult)sut.CreateContact(command).GetAwaiter().GetResult();
-      Guid id = (Guid)result.Value.GetType().GetProperty("Id").GetValue(result.Value);
+      var id = (Guid)result.Value.GetType().GetProperty("Id").GetValue(result.Value);
 
       return id;
     }
+
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8605 // Unboxing a possibly null value.
 
     [TestMethod]
     public void Requires_An_Address()
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
-      Guid contactId = this.CraeteContact("Homer", "Simpson");
+      Guid contactId = CraeteContact("Homer", "Simpson");
 
       var command = new AddAddressCommand()
       {
@@ -100,7 +107,7 @@ namespace Alex.Contacts.Service.Test
     public void With_Non_Existing_Contact_Id_Causes_Not_Found_Result()
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
-      Guid contactId = Guid.NewGuid();
+      var contactId = Guid.NewGuid();
 
       var command = new AddAddressCommand()
       {
@@ -122,7 +129,7 @@ namespace Alex.Contacts.Service.Test
     public void With_All_Empty_Fields_Causes_Unprocessable_Entity_Result()
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
-      Guid contactId = this.CraeteContact("Homer", "Simpson");
+      Guid contactId = CraeteContact("Homer", "Simpson");
 
       var command = new AddAddressCommand()
       {

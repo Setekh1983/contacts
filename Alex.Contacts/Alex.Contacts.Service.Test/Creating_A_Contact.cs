@@ -22,7 +22,7 @@ namespace Alex.Contacts.Service.Test
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
 
-      CreateContactCommand command = new CreateContactCommand()
+      var command = new CreateContactCommand()
       {
         Forename = "Homer",
         LastName = "Simpson"

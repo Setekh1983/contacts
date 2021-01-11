@@ -30,12 +30,21 @@ namespace Alex.Contacts.Test
         domainEvent.Forename == name.FirstName &&
         domainEvent.LastName == name.LastName);
     }
+
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+#pragma warning disable CA1806 // Do not ignore method results
+    
     [TestMethod]
     public void With_Null_As_A_Name_Raises_An_Error()
     {
+
       Action action = () => new Contact(null);
+
 
       action.Should().Throw<ArgumentNullException>();
     }
+
+#pragma warning restore CA1806 // Do not ignore method results
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
   }
 }

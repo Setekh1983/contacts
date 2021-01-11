@@ -34,6 +34,8 @@ namespace Alex.Contacts.Test
         domainEvents.HouseNumber == address.HouseNumber);
     }
 
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+
     [TestMethod]
     public void Does_Not_Accept_A_Null_Address()
     {
@@ -44,5 +46,7 @@ namespace Alex.Contacts.Test
 
       action.Should().Throw<ArgumentNullException>();
     }
+
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
   }
 }
