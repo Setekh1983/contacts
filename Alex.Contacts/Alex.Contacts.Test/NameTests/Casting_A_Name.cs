@@ -4,7 +4,7 @@ using FluentAssertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Alex.Contacts.Test
+namespace Alex.Contacts.NameTest
 {
 #pragma warning disable CS8604 // Possible null reference argument.
   [TestClass]

@@ -8,10 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Alex.Contacts.Test
+namespace Alex.Contacts.ContactTest
 {
   [TestClass]
-  public class Correcting_A_Contacts_Address
+  public class Adding_A_Contacts_Address
   {
     [TestMethod]
     public void Requires_An_Address()
@@ -20,13 +20,13 @@ namespace Alex.Contacts.Test
       var name = Name.Create("Homer", "Simpson").Value;
       var sut = new Contact(name);
 
-      sut.CorrectAddress(address);
+      sut.AddAddress(address);
 
       IEnumerable<IDomainEvent> events = sut.GetChanges();
 
       events.Should().HaveCount(2);
       events.First().Should().BeOfType<ContactCreated>();
-      events.Last().Should().Match<ContactAddressCorrected>(domainEvents =>
+      events.Last().Should().Match<ContactAddressAdded>(domainEvents =>
         domainEvents.ContactId == sut.Id &&
         domainEvents.City == address.City &&
         domainEvents.CityCode == address.CityCode &&
@@ -34,15 +34,19 @@ namespace Alex.Contacts.Test
         domainEvents.HouseNumber == address.HouseNumber);
     }
 
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+
     [TestMethod]
     public void Does_Not_Accept_A_Null_Address()
     {
       var name = Name.Create("Homer", "Simpson").Value;
       var sut = new Contact(name);
 
-      Action action = () => sut.CorrectAddress(null);
+      Action action = () => sut.AddAddress(null);
 
       action.Should().Throw<ArgumentNullException>();
     }
+
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
   }
 }

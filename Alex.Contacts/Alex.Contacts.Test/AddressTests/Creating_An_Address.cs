@@ -4,7 +4,7 @@ using FluentAssertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Alex.Contacts.Test
+namespace Alex.Contacts.AddressTest
 {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
   [TestClass]
