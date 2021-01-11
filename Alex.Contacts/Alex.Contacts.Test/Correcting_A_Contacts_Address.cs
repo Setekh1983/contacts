@@ -8,10 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Alex.Addresses.Test
+namespace Alex.Contacts.Test
 {
   [TestClass]
-  public class Adding_A_Contacts_Address
+  public class Correcting_A_Contacts_Address
   {
     [TestMethod]
     public void Requires_An_Address()
@@ -20,13 +20,13 @@ namespace Alex.Addresses.Test
       var name = Name.Create("Homer", "Simpson").Value;
       var sut = new Contact(name);
 
-      sut.AddAddress(address);
+      sut.CorrectAddress(address);
 
       IEnumerable<IDomainEvent> events = sut.GetChanges();
 
       events.Should().HaveCount(2);
       events.First().Should().BeOfType<ContactCreated>();
-      events.Last().Should().Match<ContactAddressAdded>(domainEvents =>
+      events.Last().Should().Match<ContactAddressCorrected>(domainEvents =>
         domainEvents.ContactId == sut.Id &&
         domainEvents.City == address.City &&
         domainEvents.CityCode == address.CityCode &&
@@ -40,7 +40,7 @@ namespace Alex.Addresses.Test
       var name = Name.Create("Homer", "Simpson").Value;
       var sut = new Contact(name);
 
-      Action action = () => sut.AddAddress(null);
+      Action action = () => sut.CorrectAddress(null);
 
       action.Should().Throw<ArgumentNullException>();
     }

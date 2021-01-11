@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Alex.Addresses
+namespace Alex.Contacts
 {
   public class ContactAddressAdded : IDomainEvent
   {

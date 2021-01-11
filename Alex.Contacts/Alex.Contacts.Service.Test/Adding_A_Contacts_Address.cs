@@ -1,4 +1,3 @@
-using Alex.Addresses;
 using Alex.Contacts.Service.Controllers;
 using Alex.DddBasics;
 

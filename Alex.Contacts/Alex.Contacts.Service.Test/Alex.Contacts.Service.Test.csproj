@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Alex.Addresses\Alex.Addresses.csproj" />
     <ProjectReference Include="..\Alex.Contacts.Service\Alex.Contacts.Service.csproj" />
     <ProjectReference Include="..\Alex.DddBasics.EventStoreDB\Alex.DddBasics.EventStoreDB.csproj" />
   </ItemGroup>

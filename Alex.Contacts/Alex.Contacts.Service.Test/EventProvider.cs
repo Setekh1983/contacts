@@ -1,5 +1,4 @@
-﻿using Alex.Addresses;
-using Alex.DddBasics;
+﻿using Alex.DddBasics;
 using Alex.DddBasics.EventStoreDB;
 
 using EventStore.Client;

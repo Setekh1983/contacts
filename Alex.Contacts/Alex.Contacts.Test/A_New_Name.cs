@@ -4,7 +4,7 @@ using FluentAssertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Alex.Addresses.Test
+namespace Alex.Contacts.Test
 {
   [TestClass]
   public class A_New_Name

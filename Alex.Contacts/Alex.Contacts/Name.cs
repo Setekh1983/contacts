@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-namespace Alex.Addresses
+namespace Alex.Contacts
 {
   public sealed class Name : ValueObject
   {

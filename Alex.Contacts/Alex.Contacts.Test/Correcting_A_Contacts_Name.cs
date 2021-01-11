@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Alex.Addresses.Test
+namespace Alex.Contacts.Test
 {
   [TestClass]
   public class Changing_A_Contacts_Name

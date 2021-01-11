@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Alex.Addresses.Test
+namespace Alex.Contacts.Test
 {
   [TestClass]
   public class A_New_Contact

@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Alex.Addresses
+namespace Alex.Contacts
 {
   public sealed class Address : ValueObject
   {
@@ -22,7 +22,7 @@ namespace Alex.Addresses
 
     public override string ToString()
     {
-      string address = this.Street;
+      var address = this.Street;
 
       if (!string.IsNullOrWhiteSpace(this.HouseNumber))
       {
