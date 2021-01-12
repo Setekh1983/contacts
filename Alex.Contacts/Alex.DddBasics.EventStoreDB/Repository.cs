@@ -39,9 +39,8 @@ namespace Alex.DddBasics.EventStoreDB
         ? StreamRevision.None
         : StreamRevision.FromInt64(persistable.OriginatingVersion);
 
-      var events = persistable.GetChanges();
-      var eventData = new List<EventData>();
-      PrepareEventData(events, eventData);
+      IEnumerable<IDomainEvent> events = persistable.GetChanges();
+      List<EventData> eventData = PrepareEventData(events);
 
       IWriteResult result = await this.EventStoreClient.AppendToStreamAsync(
         this.GetStreamName(persistable.Id), revision, eventData);
@@ -59,7 +58,7 @@ namespace Alex.DddBasics.EventStoreDB
         return null;
       }
       var readEventTask = this.GetEvents(result);
-      var aggregate = CreateInstance(id);
+      var aggregate = this.CreateInstance(id);
 
       IPersistableAggregate persistable = aggregate;
 
@@ -92,8 +91,10 @@ namespace Alex.DddBasics.EventStoreDB
       return (domainEvents, latestEventNumber.ToInt64());
     }
 
-    static void PrepareEventData(IEnumerable<IDomainEvent> events, List<EventData> eventData)
+    static List<EventData> PrepareEventData(IEnumerable<IDomainEvent> events)
     {
+      var eventData = new List<EventData>();
+
       foreach (IDomainEvent domainEvent in events)
       {
         var bytes = JsonSerializer.SerializeToUtf8Bytes(domainEvent, domainEvent.GetType());
@@ -103,6 +104,7 @@ namespace Alex.DddBasics.EventStoreDB
 
         eventData.Add(data);
       }
+      return eventData;
     }
   }
 }

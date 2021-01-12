@@ -33,8 +33,6 @@ namespace Alex.Contacts.NameTest
       sut.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
     }
 
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-
     [TestMethod]
     public void Cannot_Be_Created_With_Null_As_A_Forename()
     {
@@ -43,8 +41,6 @@ namespace Alex.Contacts.NameTest
       sut.IsFailure.Should().BeTrue();
       sut.Error.Should().Be(MISSING_FORNAME_ERROR_MESSAGE);
     }
-
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
     [TestMethod]
     public void Cannot_Be_Created_With_Whitespace_As_A_Forename()
@@ -64,8 +60,6 @@ namespace Alex.Contacts.NameTest
       sut.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
     }
 
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-
     [TestMethod]
     public void Cannot_Be_Created_With_Null_As_A_Surname()
     {
@@ -74,8 +68,6 @@ namespace Alex.Contacts.NameTest
       sut.IsFailure.Should().BeTrue();
       sut.Error.Should().Be(MISSING_SURNAME_ERROR_MESSAGE);
     }
-
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
     [TestMethod]
     public void Cannot_Be_Created_With_Whitespace_As_A_Surname()
