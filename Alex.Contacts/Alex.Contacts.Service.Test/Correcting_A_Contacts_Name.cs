@@ -30,9 +30,9 @@ namespace Alex.Contacts.Service.Test
       List<IDomainEvent> domainEvents = EventProvider.GetEvents<Contact>(contactId).GetAwaiter().GetResult();
 
       domainEvents.Should().HaveCount(2);
-      domainEvents.Last().Should().Match<ContactNameCorrected>(domainEvent =>
-        domainEvent.Forename == command.Forename &&
-        domainEvent.LastName == command.Surname);
+      domainEvents.Last().Should().Match<ContactNameCorrectedV1>(domainEvent =>
+        domainEvent.FirstName == command.FirstName &&
+        domainEvent.LastName == command.LastName);
     }
     [TestMethod]
     public void With_Null_As_A_Command_Causes_A_Bad_Request_Result()
@@ -85,7 +85,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.CorrectName(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.ShouldBeUnprocessableEntityResult("name", "Please provide a forename.");
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a first name.");
     }
 
     [TestMethod]
@@ -99,7 +99,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.CorrectName(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.ShouldBeUnprocessableEntityResult("name", "Please provide a surname.");
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a last name.");
     }
 
     [TestMethod]
@@ -113,7 +113,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.CorrectName(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.ShouldBeUnprocessableEntityResult("name", "Please provide a forename.");
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a first name.");
     }
 
     [TestMethod]
@@ -127,7 +127,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.CorrectName(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.ShouldBeUnprocessableEntityResult("name", "Please provide a surname.");
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a last name.");
     }
   }
 }

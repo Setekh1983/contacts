@@ -4,7 +4,7 @@ using System;
 
 namespace Alex.Contacts
 {
-  public class ContactAddressAdded : IDomainEvent
+  public class ContactAddressAddedV1 : IDomainEvent
   {
     public string HouseNumber { get; }
     public string Street { get; }
@@ -12,7 +12,7 @@ namespace Alex.Contacts
     public string City { get; }
     public Guid ContactId { get; }
 
-    public ContactAddressAdded(Guid contactId, string city, string cityCode, string street, string houseNumber)
+    public ContactAddressAddedV1(Guid contactId, string city, string cityCode, string street, string houseNumber)
     {
       this.ContactId = contactId;
       this.City = city;

@@ -61,7 +61,7 @@ namespace Alex.Contacts.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please provide a forename..
+        ///   Looks up a localized string similar to Please provide a first name..
         /// </summary>
         internal static string ForenameIsMissing {
             get {
@@ -79,7 +79,7 @@ namespace Alex.Contacts.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please provide a surname..
+        ///   Looks up a localized string similar to Please provide a last name..
         /// </summary>
         internal static string SurnameIsMissing {
             get {

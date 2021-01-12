@@ -31,9 +31,9 @@ namespace Alex.Contacts.Service.Test
       List<IDomainEvent> domainEvents = EventProvider.GetEvents<Contact>(id).GetAwaiter().GetResult();
 
       domainEvents.Should().HaveCount(1);
-      domainEvents.First().Should().Match<ContactCreated>(domainEvent =>
-        domainEvent.Forename == command.Forename &&
-        domainEvent.LastName == command.Surname);
+      domainEvents.First().Should().Match<ContactCreatedV1>(domainEvent =>
+        domainEvent.FirstName == command.FirstName &&
+        domainEvent.LastName == command.LastName);
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.ShouldBeUnprocessableEntityResult("name", "Please provide a forename.");
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a first name.");
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.ShouldBeUnprocessableEntityResult("name", "Please provide a surname.");
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a last name.");
     }
 
     [TestMethod]
@@ -85,7 +85,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.ShouldBeUnprocessableEntityResult("name", "Please provide a forename.");
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a first name.");
     }
 
     [TestMethod]
@@ -98,7 +98,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.ShouldBeUnprocessableEntityResult("name", "Please provide a surname.");
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a last name.");
     }
   }
 }

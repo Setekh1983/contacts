@@ -4,15 +4,15 @@ using System;
 
 namespace Alex.Contacts
 {
-  public class ContactCreated : IDomainEvent
+  public class ContactCreatedV1 : IDomainEvent
   {
-    public string Forename { get; }
+    public string FirstName { get; }
     public string LastName { get; }
     public Guid ContactId { get; }
 
-    public ContactCreated(Guid contactId, string forename, string lastName)
+    public ContactCreatedV1(Guid contactId, string firstName, string lastName)
     {
-      this.Forename = forename;
+      this.FirstName = firstName;
       this.LastName = lastName;
       this.ContactId = contactId;
     }

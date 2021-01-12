@@ -25,9 +25,9 @@ namespace Alex.Contacts.ContactTest
       IEnumerable<IDomainEvent> events = sut.GetChanges();
 
       events.Should().HaveCount(1);
-      events.First().Should().Match<ContactCreated>(domainEvent =>
+      events.First().Should().Match<ContactCreatedV1>(domainEvent =>
         domainEvent.ContactId == sut.Id &&
-        domainEvent.Forename == name.FirstName &&
+        domainEvent.FirstName == name.FirstName &&
         domainEvent.LastName == name.LastName);
     }
 

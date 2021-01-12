@@ -4,17 +4,17 @@ using System;
 
 namespace Alex.Contacts
 {
-  public class ContactNameCorrected : IDomainEvent
+  public class ContactNameCorrectedV1 : IDomainEvent
   {
     public Guid ContactId { get; }
-    public string Forename { get; }
+    public string FirstName { get; }
     public string LastName { get; }
 
-    public ContactNameCorrected(Guid contactId, string forename, string lastName)
+    public ContactNameCorrectedV1(Guid contactId, string firstName, string lastName)
     {
       this.ContactId = contactId;
       this.LastName = lastName;
-      this.Forename = forename;
+      this.FirstName = firstName;
     }
   }
 }

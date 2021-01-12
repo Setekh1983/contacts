@@ -27,7 +27,7 @@ namespace Alex.Contacts.Service.Test
     {
       if (EventTypeRegistry is null)
       {
-        EventTypeRegistry = EventTypeRegistry.LoadFromAssembly(typeof(ContactCreated).Assembly);
+        EventTypeRegistry = EventTypeRegistry.LoadFromAssembly(typeof(ContactCreatedV1).Assembly);
       }
       return EventTypeRegistry;
     }

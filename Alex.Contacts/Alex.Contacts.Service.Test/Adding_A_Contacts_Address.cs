@@ -30,7 +30,7 @@ namespace Alex.Contacts.Service.Test
       List<IDomainEvent> domainEvents = EventProvider.GetEvents<Contact>(contactId).GetAwaiter().GetResult();
 
       domainEvents.Should().HaveCount(2);
-      domainEvents.Last().Should().Match<ContactAddressAdded>(domainEvent =>
+      domainEvents.Last().Should().Match<ContactAddressAddedV1>(domainEvent =>
         domainEvent.City == command.City &&
         domainEvent.CityCode == command.CityCode &&
         domainEvent.Street == command.Street &&

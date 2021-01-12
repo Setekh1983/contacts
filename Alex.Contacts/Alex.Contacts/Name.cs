@@ -21,20 +21,20 @@ namespace Alex.Contacts
     public static implicit operator string(Name name)
      => (name is null) ? string.Empty : name.ToString();
 
-    public static Result<Name> Create(string forename, string surname)
+    public static Result<Name> Create(string firstName, string lastName)
     {
-      if (string.IsNullOrWhiteSpace(forename))
+      if (string.IsNullOrWhiteSpace(firstName))
       {
         return Result.Failure<Name>(Properties.Resources.ForenameIsMissing);
       }
-      if (string.IsNullOrWhiteSpace(surname))
+      if (string.IsNullOrWhiteSpace(lastName))
       {
         return Result.Failure<Name>(Properties.Resources.SurnameIsMissing);
       }
-      forename = forename.Trim();
-      surname = surname.Trim();
+      firstName = firstName.Trim();
+      lastName = lastName.Trim();
 
-      return Result.Success(new Name(forename, surname));
+      return Result.Success(new Name(firstName, lastName));
     }
 
     protected override IEnumerable<object> GetEqualityComponents()

@@ -25,8 +25,8 @@ namespace Alex.Contacts.ContactTest
       IEnumerable<IDomainEvent> events = sut.GetChanges();
 
       events.Should().HaveCount(2);
-      events.First().Should().BeOfType<ContactCreated>();
-      events.Last().Should().Match<ContactAddressAdded>(domainEvents =>
+      events.First().Should().BeOfType<ContactCreatedV1>();
+      events.Last().Should().Match<ContactAddressAddedV1>(domainEvents =>
         domainEvents.ContactId == sut.Id &&
         domainEvents.City == address.City &&
         domainEvents.CityCode == address.CityCode &&

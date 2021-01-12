@@ -24,7 +24,7 @@ namespace Alex.Contacts.Service.Controllers
       {
         return this.BadRequest();
       }
-      Result<Name> nameResult = Name.Create(command.Forename, command.Surname);
+      Result<Name> nameResult = Name.Create(command.FirstName, command.LastName);
 
       if (nameResult.IsFailure)
       {
@@ -50,7 +50,7 @@ namespace Alex.Contacts.Service.Controllers
       {
         return this.NotFound();
       }
-      Result<Name> nameResult = Name.Create(command.Forename, command.Surname);
+      Result<Name> nameResult = Name.Create(command.FirstName, command.LastName);
 
       if (nameResult.IsFailure)
       {

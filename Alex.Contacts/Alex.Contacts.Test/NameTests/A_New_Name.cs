@@ -9,8 +9,8 @@ namespace Alex.Contacts.NameTest
   [TestClass]
   public class A_New_Name
   {
-    private const string MISSING_SURNAME_ERROR_MESSAGE = "Please provide a surname.";
-    private const string MISSING_FORNAME_ERROR_MESSAGE = "Please provide a forename.";
+    private const string MISSING_SURNAME_ERROR_MESSAGE = "Please provide a last name.";
+    private const string MISSING_FORNAME_ERROR_MESSAGE = "Please provide a first name.";
 
     [TestMethod]
     public void Requires_A_Forename_And_Surname()
