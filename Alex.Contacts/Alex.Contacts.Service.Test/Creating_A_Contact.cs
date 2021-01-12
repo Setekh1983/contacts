@@ -25,7 +25,7 @@ namespace Alex.Contacts.Service.Test
       var command = new CreateContactCommand("Homer", "Simpson");
       var sut = new ContactController(repository);
 
-      var result = (CreatedResult)sut.CreateContact(command).GetAwaiter().GetResult();
+      var result = (CreatedResult)sut.Create(command).GetAwaiter().GetResult();
       var id = (Guid)result.Value.GetType().GetProperty("Id").GetValue(result.Value);
 
       List<IDomainEvent> domainEvents = EventProvider.GetEvents<Contact>(id).GetAwaiter().GetResult();
@@ -43,7 +43,7 @@ namespace Alex.Contacts.Service.Test
 
       var sut = new ContactController(repository);
 
-      ActionResult result = sut.CreateContact(null).GetAwaiter().GetResult();
+      ActionResult result = sut.Create(null).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
       result.Should().BeOfType<BadRequestResult>();
@@ -56,7 +56,7 @@ namespace Alex.Contacts.Service.Test
       var command = new CreateContactCommand(string.Empty, "Simpson");
       var sut = new ContactController(repository);
       
-      ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
+      ActionResult result = sut.Create(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
       result.ShouldBeUnprocessableEntityResult("name", "Please provide a first name.");
@@ -69,7 +69,7 @@ namespace Alex.Contacts.Service.Test
       var sut = new ContactController(repository);
       var command = new CreateContactCommand("Homer", string.Empty);
       
-      ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
+      ActionResult result = sut.Create(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
       result.ShouldBeUnprocessableEntityResult("name", "Please provide a last name.");
@@ -82,7 +82,7 @@ namespace Alex.Contacts.Service.Test
       var command = new CreateContactCommand(null, "Simpson");
       var sut = new ContactController(repository);
 
-      ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
+      ActionResult result = sut.Create(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
       result.ShouldBeUnprocessableEntityResult("name", "Please provide a first name.");
@@ -95,7 +95,7 @@ namespace Alex.Contacts.Service.Test
       var sut = new ContactController(repository);
       var command = new CreateContactCommand("Homer", null);
 
-      ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
+      ActionResult result = sut.Create(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
       result.ShouldBeUnprocessableEntityResult("name", "Please provide a last name.");

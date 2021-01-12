@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+
+using Alex.DddBasics.EventStoreDB;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +30,11 @@ namespace Alex.Contacts.Service
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddControllers();
+      services.AddEventStoreDB<Contact>(options =>
+      {
+        options.ConnectionString = this.Configuration["ConnectionStrings:EventStore"];
+        options.EventAssemblies.Add(typeof(ContactCreatedV1).Assembly);
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

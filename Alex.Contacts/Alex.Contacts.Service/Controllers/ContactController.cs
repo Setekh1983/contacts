@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 namespace Alex.Contacts.Service.Controllers
 {
   [ApiController]
+  [Route("[controller]")]
+  [Route("[controller]/[action]")]
   public class ContactController : ControllerBase
   {
     public ContactController(IRepository<Contact> repository) => this.Repository = repository;
@@ -18,7 +20,7 @@ namespace Alex.Contacts.Service.Controllers
     public IRepository<Contact> Repository { get; }
 
     [HttpPost]
-    public async Task<ActionResult> CreateContact(CreateContactCommand command)
+    public async Task<ActionResult> Create(CreateContactCommand command)
     {
       if (command is null)
       {

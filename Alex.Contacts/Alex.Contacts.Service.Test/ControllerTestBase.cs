@@ -23,7 +23,7 @@ namespace Alex.Contacts.Service.Test
       var command = new CreateContactCommand(forename, surname);
       var sut = new ContactController(repository);
 
-      var result = (CreatedResult)sut.CreateContact(command).GetAwaiter().GetResult();
+      var result = (CreatedResult)sut.Create(command).GetAwaiter().GetResult();
       var id = (Guid)result.Value.GetType().GetProperty("Id").GetValue(result.Value);
 
       return id;
