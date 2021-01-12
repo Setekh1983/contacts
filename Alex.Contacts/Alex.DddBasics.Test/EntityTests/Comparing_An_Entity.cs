@@ -46,7 +46,7 @@ namespace Alex.DddBasics.Test.EntityTests
     public void With_A_Different_Type_Is_False()
     {
       var entity1 = new Citizen();
-      object entity2 = new object();
+      var entity2 = new object();
 
       entity1.Equals(entity2).Should().BeFalse();
     }
@@ -96,7 +96,7 @@ namespace Alex.DddBasics.Test.EntityTests
     public void Via_Equality_Operator_With_Different_Type_Is_False()
     {
       var entity1 = new Citizen();
-      object entity2 = new object();
+      var entity2 = new object();
 
       (entity1 == entity2).Should().BeFalse();
     }
@@ -145,7 +145,7 @@ namespace Alex.DddBasics.Test.EntityTests
     public void Via_Inequality_Operator_With_Different_Types_Is_True()
     {
       var entity1 = new Citizen();
-      object entity2 = new object();
+      var entity2 = new object();
 
       (entity1 != entity2).Should().BeTrue();
     }
