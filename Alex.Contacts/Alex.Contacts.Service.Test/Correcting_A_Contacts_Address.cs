@@ -106,7 +106,22 @@ namespace Alex.Contacts.Service.Test
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
       Guid contactId = CreateContact("Homer", "Simpson");
 
-      var command = new CorrectAddressCommand(contactId, default, default, default, default);
+      var command = new CorrectAddressCommand(contactId, string.Empty, string.Empty, string.Empty, string.Empty);
+
+      var sut = new ContactController(repository);
+      ActionResult result = sut.CorrectAddress(command).GetAwaiter().GetResult();
+
+      result.Should().NotBeNull();
+      result.ShouldBeUnprocessableEntityResult("address", "Please provide at least one value of the address.");
+    }
+
+    [TestMethod]
+    public void With_All_Null_Fields_Causes_Unprocessable_Entity_Result()
+    {
+      IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
+      Guid contactId = CreateContact("Homer", "Simpson");
+
+      var command = new CorrectAddressCommand(contactId, null, null, null, null);
 
       var sut = new ContactController(repository);
       ActionResult result = sut.CorrectAddress(command).GetAwaiter().GetResult();

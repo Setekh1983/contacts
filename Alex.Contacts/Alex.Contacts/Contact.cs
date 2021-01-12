@@ -55,7 +55,6 @@ namespace Alex.Contacts
       this.ApplyEvent(new ContactAddressAdded(
         this.Id, address.City, address.CityCode, address.Street, address.HouseNumber));
     }
-
     public void CorrectName(Name name)
     {
       _ = name ?? throw new ArgumentNullException(nameof(name));

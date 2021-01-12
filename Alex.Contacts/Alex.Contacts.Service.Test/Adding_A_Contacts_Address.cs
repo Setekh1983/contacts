@@ -41,9 +41,8 @@ namespace Alex.Contacts.Service.Test
     public void With_Null_As_A_Command_Causes_A_Bad_Request_Result()
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
-
       var sut = new ContactController(repository);
-
+      
       ActionResult result = sut.AddAddress(null).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
@@ -54,10 +53,9 @@ namespace Alex.Contacts.Service.Test
     public void With_Missing_Contact_Id_Causes_Not_Found_Result()
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
-
       var command = new AddAddressCommand(Guid.Empty, "Springfield", "12345", "Evergreen Terrace", "1234");
-
       var sut = new ContactController(repository);
+
       ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
@@ -83,10 +81,23 @@ namespace Alex.Contacts.Service.Test
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
       Guid contactId = CreateContact("Homer", "Simpson");
-
-      var command = new AddAddressCommand(contactId, default, default, default, default);
-
+      var command = new AddAddressCommand(contactId, string.Empty, string.Empty, string.Empty, string.Empty);
       var sut = new ContactController(repository);
+
+      ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
+
+      result.Should().NotBeNull();
+      result.ShouldBeUnprocessableEntityResult("address", "Please provide at least one value of the address.");
+    }
+
+    [TestMethod]
+    public void With_All_Null_Fields_Causes_Unprocessable_Entity_Result()
+    {
+      IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
+      Guid contactId = CreateContact("Homer", "Simpson");
+      var command = new AddAddressCommand(contactId, null, null, null, null);
+      var sut = new ContactController(repository);
+
       ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();

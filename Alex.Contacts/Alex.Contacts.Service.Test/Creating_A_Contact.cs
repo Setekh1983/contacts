@@ -50,7 +50,7 @@ namespace Alex.Contacts.Service.Test
     }
 
     [TestMethod]
-    public void With_Missing_Forename_Causes_Unprocessable_Enttiy_Result()
+    public void With_Empty_Forename_Causes_Unprocessable_Enttiy_Result()
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
       var command = new CreateContactCommand(string.Empty, "Simpson");
@@ -63,12 +63,38 @@ namespace Alex.Contacts.Service.Test
     }
 
     [TestMethod]
-    public void With_Missing_LastName_Causes_Unprocessable_Entity_Result()
+    public void With_Empty_LastName_Causes_Unprocessable_Entity_Result()
     {
       IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
       var sut = new ContactController(repository);
       var command = new CreateContactCommand("Homer", string.Empty);
       
+      ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
+
+      result.Should().NotBeNull();
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a surname.");
+    }
+
+    [TestMethod]
+    public void With_Null_Forename_Causes_Unprocessable_Enttiy_Result()
+    {
+      IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
+      var command = new CreateContactCommand(null, "Simpson");
+      var sut = new ContactController(repository);
+
+      ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
+
+      result.Should().NotBeNull();
+      result.ShouldBeUnprocessableEntityResult("name", "Please provide a forename.");
+    }
+
+    [TestMethod]
+    public void With_Null_LastName_Causes_Unprocessable_Entity_Result()
+    {
+      IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
+      var sut = new ContactController(repository);
+      var command = new CreateContactCommand("Homer", null);
+
       ActionResult result = sut.CreateContact(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();

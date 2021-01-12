@@ -38,6 +38,32 @@ namespace Alex.Contacts.Service.Controllers
     }
 
     [HttpPost]
+    public async Task<ActionResult> CorrectName(CorrectNameCommand command)
+    {
+      if (command is null)
+      {
+        return this.BadRequest();
+      }
+      Contact contact = await this.Repository.LoadAsync(command.ContactId);
+
+      if (contact is null)
+      {
+        return this.NotFound();
+      }
+      Result<Name> nameResult = Name.Create(command.Forename, command.Surname);
+
+      if (nameResult.IsFailure)
+      {
+        this.ModelState.AddModelError("name", nameResult.Error);
+        return this.UnprocessableEntity(this.ModelState);
+      }
+      contact.CorrectName(nameResult.Value);
+      await this.Repository.SaveAsync(contact);
+
+      return this.Ok();
+    }
+
+    [HttpPost]
     public async Task<ActionResult> AddAddress(AddAddressCommand command)
     {
       if (command is null)
