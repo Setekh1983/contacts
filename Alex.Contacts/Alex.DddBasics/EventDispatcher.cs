@@ -6,6 +6,13 @@ namespace Alex.DddBasics
 {
   public class EventDispatcher
   {
-    public void Dispatch(IEnumerable<IDomainEvent> domainEvents) => throw new NotImplementedException();
+
+
+
+    public void Dispatch(IEnumerable<IDomainEvent> domainEvents)
+    {
+      _ = domainEvents ?? throw new ArgumentNullException(nameof(domainEvents));
+
+    }
   }
 }
