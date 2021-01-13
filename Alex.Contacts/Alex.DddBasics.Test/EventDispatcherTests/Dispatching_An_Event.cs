@@ -18,13 +18,10 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
     {
       var citizen = Guid.NewGuid();
       var marriedToCitizen = Guid.NewGuid();
-      var domainEvents = new List<IDomainEvent>()
-      {
-        new CitizenMovedEvent(citizen, "Springfield", "12345", "Evergreen Terrace", "5679", "USA")
-      };
-      var sut = new EventDispatcher();
+      var domainEvent = new CitizenMovedEvent(citizen, "Springfield", "12345", "Evergreen Terrace", "5679", "USA");
+      IDomainEventDispatcher sut = new DomainEventDispatcher();
 
-      sut.Dispatch(domainEvents);
+      sut.Dispatch(domainEvent).GetAwaiter().GetResult();
 
       DomainEventHandlerStub.HandledEvents.Should().HaveCount(1);
       DomainEventHandlerStub.HandledEvents.First().Should().Match<CitizenMovedEvent>(domainEvent =>
@@ -40,13 +37,10 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
     {
       var citizen = Guid.NewGuid();
       var marriedToCitizen = Guid.NewGuid();
-      var domainEvents = new List<IDomainEvent>
-      {
-        new CitizenMarriedEvent(citizen, marriedToCitizen)
-      };
-      var sut = new EventDispatcher();
+      var domainEvent = new CitizenMarriedEvent(citizen, marriedToCitizen);
+      IDomainEventDispatcher sut = new DomainEventDispatcher();
 
-      sut.Dispatch(domainEvents);
+      sut.Dispatch(domainEvent).GetAwaiter().GetResult();
 
       DomainEventHandlerStub.HandledEvents.Should().HaveCount(2);
       DomainEventHandlerStub.HandledEvents.First().Should().Match<CitizenMarriedEvent>(domainEvent =>
@@ -60,13 +54,10 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
     public void To_No_Handler()
     {
       var citizen = Guid.NewGuid();
-      var domainEvents = new List<IDomainEvent>
-      {
-        new CitizenDiedEvent(citizen)
-      };
-      var sut = new EventDispatcher();
+      var domainEvent = new CitizenDiedEvent(citizen);
+      IDomainEventDispatcher sut = new DomainEventDispatcher();
 
-      sut.Dispatch(domainEvents);
+      sut.Dispatch(domainEvent).GetAwaiter().GetResult();
 
       DomainEventHandlerStub.HandledEvents.Should().BeEmpty();
     }

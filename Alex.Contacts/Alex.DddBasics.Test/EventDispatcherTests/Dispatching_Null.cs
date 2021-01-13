@@ -1,4 +1,3 @@
-using Alex.DddBasics.Test.Domain;
 
 using FluentAssertions;
 
@@ -13,11 +12,23 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
   public class Dispatching_Null
   {
     [TestMethod]
-    public void Raises_An_Error()
+    public void As_Single_Event_Raises_An_Error()
     {
-      var sut = new EventDispatcher();
+      IDomainEvent? domainEvent = null;
+      IDomainEventDispatcher sut = new DomainEventDispatcher();
 
-      Action action = () => sut.Dispatch(null);
+      Action action = () => sut.Dispatch(domainEvent).GetAwaiter().GetResult();
+
+      action.Should().Throw<ArgumentNullException>();
+    }
+
+    [TestMethod]
+    public void As_Collection_Raises_An_Error()
+    {
+      IList<IDomainEvent>? domainEvent = null;
+      IDomainEventDispatcher sut = new DomainEventDispatcher();
+
+      Action action = () => sut.Dispatch(domainEvent).GetAwaiter().GetResult();
 
       action.Should().Throw<ArgumentNullException>();
     }

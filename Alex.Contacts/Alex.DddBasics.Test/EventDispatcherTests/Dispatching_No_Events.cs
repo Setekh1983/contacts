@@ -16,9 +16,9 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
     public void Does_Not_Throw_Or_Call_Handlers()
     {
       var domainEvents = new List<IDomainEvent>();
-      var sut = new EventDispatcher();
+      IDomainEventDispatcher sut = new DomainEventDispatcher();
 
-      sut.Dispatch(domainEvents);
+      sut.Dispatch(domainEvents).GetAwaiter().GetResult();
 
       DomainEventHandlerStub.HandledEvents.Should().BeEmpty();
     }

@@ -23,9 +23,9 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
         new CitizenMovedEvent(citizen, "Springfield", "12345", "Evergreen Terrace", "5679", "USA"),
         new CitizenMarriedEvent(citizen, marriedToCitizen)
       };
-      var sut = new EventDispatcher();
+      IDomainEventDispatcher sut = new DomainEventDispatcher();
 
-      sut.Dispatch(domainEvents);
+      sut.Dispatch(domainEvents).GetAwaiter().GetResult();
 
       DomainEventHandlerStub.HandledEvents.Should().HaveCount(3);
       DomainEventHandlerStub.HandledEvents.First().Should().Match<CitizenMovedEvent>(domainEvent =>
