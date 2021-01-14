@@ -1,26 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Alex.DddBasics.Test.Domain
 {
   class DomainEventHandlerStub
   {
-    public static IList<IDomainEvent> HandledEvents = new List<IDomainEvent>();
+    static readonly Type MarriedHandler = typeof(IEnumerable<IDomainEventHandler<CitizenMarriedEvent>>);
+    static readonly Type MovedHandler = typeof(IEnumerable<IDomainEventHandler<CitizenMovedEvent>>);
 
-    public class CitizenMarriedDomainEventHandler1Stub
+    public IList<IDomainEvent> HandledEvents = new List<IDomainEvent>();
+
+    public class CitizenMarriedDomainEventHandler1Stub : IDomainEventHandler<CitizenMarriedEvent>
     {
-
+      public IList<IDomainEvent> HandledEvents { get; }
+      public CitizenMarriedDomainEventHandler1Stub(IList<IDomainEvent> handledEvents) => this.HandledEvents = handledEvents;
+      public async Task Handle(CitizenMarriedEvent domainEvent) => HandledEvents.Add(domainEvent);
     }
-    public class CitizenMarriedDomainEventHandler2Stub
+    public class CitizenMarriedDomainEventHandler2Stub : IDomainEventHandler<CitizenMarriedEvent>
     {
-
+      public IList<IDomainEvent> HandledEvents { get; }
+      public CitizenMarriedDomainEventHandler2Stub(IList<IDomainEvent> handledEvents) => this.HandledEvents = handledEvents;
+      public async Task Handle(CitizenMarriedEvent domainEvent) => HandledEvents.Add(domainEvent);
     }
 
-    public class CitizenMovedDomainEventHandler1Stub
+    public class CitizenMovedDomainEventHandler1Stub : IDomainEventHandler<CitizenMovedEvent>
     {
+      public IList<IDomainEvent> HandledEvents { get; }
+      public CitizenMovedDomainEventHandler1Stub(IList<IDomainEvent> handledEvents) => this.HandledEvents = handledEvents;
+      public async Task Handle(CitizenMovedEvent domainEvent) => HandledEvents.Add(domainEvent);
+    }
+
+    public object CreateHandler(Type type)
+    {
+      if (MarriedHandler == type)
+      {
+        return new List<IDomainEventHandler<CitizenMarriedEvent>>() {
+          new CitizenMarriedDomainEventHandler1Stub(this.HandledEvents),
+          new CitizenMarriedDomainEventHandler1Stub(this.HandledEvents)
+        };
+      }
+      else if (MovedHandler == type)
+      {
+        return new List<IDomainEventHandler<CitizenMovedEvent>>() {
+          new CitizenMovedDomainEventHandler1Stub(this.HandledEvents)
+        };
+      }
+
+      return new List<IDomainEventHandler<CitizenDiedEvent>>();
     }
   }
 }

@@ -1,4 +1,6 @@
 
+using Alex.DddBasics.Test.Domain;
+
 using FluentAssertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,7 +17,8 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
     public void As_Single_Event_Raises_An_Error()
     {
       IDomainEvent? domainEvent = null;
-      IDomainEventDispatcher sut = new DomainEventDispatcher();
+      var handlerResults = new DomainEventHandlerStub();
+      IDomainEventDispatcher sut = new DomainEventDispatcher(handlerResults.CreateHandler);
 
       Action action = () => sut.Dispatch(domainEvent).GetAwaiter().GetResult();
 
@@ -26,7 +29,8 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
     public void As_Collection_Raises_An_Error()
     {
       IList<IDomainEvent>? domainEvent = null;
-      IDomainEventDispatcher sut = new DomainEventDispatcher();
+      var handlerResults = new DomainEventHandlerStub();
+      IDomainEventDispatcher sut = new DomainEventDispatcher(handlerResults.CreateHandler);
 
       Action action = () => sut.Dispatch(domainEvent).GetAwaiter().GetResult();
 

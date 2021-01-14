@@ -19,12 +19,13 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
       var citizen = Guid.NewGuid();
       var marriedToCitizen = Guid.NewGuid();
       var domainEvent = new CitizenMovedEvent(citizen, "Springfield", "12345", "Evergreen Terrace", "5679", "USA");
-      IDomainEventDispatcher sut = new DomainEventDispatcher();
+      var handlerResults = new DomainEventHandlerStub();
+      IDomainEventDispatcher sut = new DomainEventDispatcher(handlerResults.CreateHandler);
 
       sut.Dispatch(domainEvent).GetAwaiter().GetResult();
 
-      DomainEventHandlerStub.HandledEvents.Should().HaveCount(1);
-      DomainEventHandlerStub.HandledEvents.First().Should().Match<CitizenMovedEvent>(domainEvent =>
+      handlerResults.HandledEvents.Should().HaveCount(1);
+      handlerResults.HandledEvents.First().Should().Match<CitizenMovedEvent>(domainEvent =>
         domainEvent.Citizen == citizen &&
         domainEvent.City == "Springfield" &&
         domainEvent.CityCode == "12345" &&
@@ -38,15 +39,16 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
       var citizen = Guid.NewGuid();
       var marriedToCitizen = Guid.NewGuid();
       var domainEvent = new CitizenMarriedEvent(citizen, marriedToCitizen);
-      IDomainEventDispatcher sut = new DomainEventDispatcher();
+      var handlerResults = new DomainEventHandlerStub();
+      IDomainEventDispatcher sut = new DomainEventDispatcher(handlerResults.CreateHandler);
 
       sut.Dispatch(domainEvent).GetAwaiter().GetResult();
 
-      DomainEventHandlerStub.HandledEvents.Should().HaveCount(2);
-      DomainEventHandlerStub.HandledEvents.First().Should().Match<CitizenMarriedEvent>(domainEvent =>
+      handlerResults.HandledEvents.Should().HaveCount(2);
+      handlerResults.HandledEvents.First().Should().Match<CitizenMarriedEvent>(domainEvent =>
         domainEvent.Citizen == citizen &&
         domainEvent.MarriedToCitizen == marriedToCitizen);
-      DomainEventHandlerStub.HandledEvents.Last().Should().Match<CitizenMarriedEvent>(domainEvent =>
+      handlerResults.HandledEvents.Last().Should().Match<CitizenMarriedEvent>(domainEvent =>
         domainEvent.Citizen == citizen &&
         domainEvent.MarriedToCitizen == marriedToCitizen);
     }
@@ -55,11 +57,14 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
     {
       var citizen = Guid.NewGuid();
       var domainEvent = new CitizenDiedEvent(citizen);
-      IDomainEventDispatcher sut = new DomainEventDispatcher();
+      var handlerResults = new DomainEventHandlerStub();
+      IDomainEventDispatcher sut = new DomainEventDispatcher(handlerResults.CreateHandler);
 
       sut.Dispatch(domainEvent).GetAwaiter().GetResult();
 
-      DomainEventHandlerStub.HandledEvents.Should().BeEmpty();
+      handlerResults.HandledEvents.Should().BeEmpty();
     }
+
+
   }
 }

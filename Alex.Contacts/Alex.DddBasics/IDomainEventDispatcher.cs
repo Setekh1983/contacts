@@ -5,7 +5,7 @@ namespace Alex.DddBasics
 {
   public interface IDomainEventDispatcher
   {
-    Task Dispatch(IDomainEvent domainEvent);
-    Task Dispatch(IEnumerable<IDomainEvent> domainEvents);
+    Task Dispatch<TDomainEvent>(TDomainEvent domainEvent) where TDomainEvent : IDomainEvent;
+    Task Dispatch<TDomainEvent>(IEnumerable<TDomainEvent> domainEvents) where TDomainEvent : IDomainEvent;
   }
 }

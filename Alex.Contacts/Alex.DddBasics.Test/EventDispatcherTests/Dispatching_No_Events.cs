@@ -16,11 +16,12 @@ namespace Alex.DddBasics.Test.EventDispatcherTests
     public void Does_Not_Throw_Or_Call_Handlers()
     {
       var domainEvents = new List<IDomainEvent>();
-      IDomainEventDispatcher sut = new DomainEventDispatcher();
+      var handlerResults = new DomainEventHandlerStub();
+      IDomainEventDispatcher sut = new DomainEventDispatcher(handlerResults.CreateHandler);
 
       sut.Dispatch(domainEvents).GetAwaiter().GetResult();
 
-      DomainEventHandlerStub.HandledEvents.Should().BeEmpty();
+      handlerResults.HandledEvents.Should().BeEmpty();
     }
   }
 }
