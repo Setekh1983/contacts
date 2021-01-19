@@ -14,6 +14,9 @@ namespace Alex.DddBasics.EventStoreDB.Test
     [TestMethod]
     public void Restores_The_Current_State()
     {
+      var handlerResult = new DomainEventHandlerStub();
+      IDomainEventDispatcher domainEventDispatcher = new DomainEventDispatcher(handlerResult.CreateHandler);
+
       var homer = new Citizen();
       var marge = new Citizen();
 
@@ -21,10 +24,10 @@ namespace Alex.DddBasics.EventStoreDB.Test
       var address = new Address("Springfield", "12345", "Evergreen Terrace", "7890", "USA");
       homer.Move(address);
 
-      var repo = new Repository<Citizen>(GetEventStoreClient(), GetEventTypeMap());
+      var repo = new Repository<Citizen>(GetEventStoreClient(), GetEventTypeMap(), domainEventDispatcher);
       repo.SaveAsync(homer).GetAwaiter().GetResult();
 
-      repo = new Repository<Citizen>(GetEventStoreClient(), GetEventTypeMap());
+      repo = new Repository<Citizen>(GetEventStoreClient(), GetEventTypeMap(), domainEventDispatcher);
       Citizen sut = repo.LoadAsync(homer.Id).GetAwaiter().GetResult();
 
       sut.Should().NotBeNull();
@@ -38,7 +41,9 @@ namespace Alex.DddBasics.EventStoreDB.Test
     [TestMethod]
     public void With_An_Unknown_Id_Returns_Null()
     {
-      var sut = new Repository<Citizen>(GetEventStoreClient(), GetEventTypeMap());
+      var handlerResult = new DomainEventHandlerStub();
+      IDomainEventDispatcher domainEventDispatcher = new DomainEventDispatcher(handlerResult.CreateHandler);
+      var sut = new Repository<Citizen>(GetEventStoreClient(), GetEventTypeMap(), domainEventDispatcher);
 
       var citizen = sut.LoadAsync(Guid.NewGuid()).GetAwaiter().GetResult();
 

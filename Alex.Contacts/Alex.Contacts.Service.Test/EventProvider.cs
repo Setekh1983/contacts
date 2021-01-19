@@ -56,7 +56,10 @@ namespace Alex.Contacts.Service.Test
 
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
-    public static IRepository<TAggregate> GetRepository<TAggregate>() where TAggregate : AggregateRoot =>
-      new Repository<TAggregate>(GetEventStoreClient(), GetEventTypeMap());
+    public static IRepository<TAggregate> GetRepository<TAggregate>() where TAggregate : AggregateRoot
+    {
+      var domainEventDispatcher = new DomainEventDispatcher(type => null);
+      return new Repository<TAggregate>(GetEventStoreClient(), GetEventTypeMap(), domainEventDispatcher);
+    }
   }
 }

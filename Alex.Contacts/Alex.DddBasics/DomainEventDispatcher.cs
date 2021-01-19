@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Alex.DddBasics
 {
-  public delegate object FactoryFunction(Type type);
+  public delegate object? FactoryFunction(Type type);
 
   public class DomainEventDispatcher : IDomainEventDispatcher
   {
@@ -26,9 +26,11 @@ namespace Alex.DddBasics
     {
       _ = domainEvent ?? throw new ArgumentNullException(nameof(domainEvent));
 
-      await this.DispatchEvent(domainEvent);
-    }
+      var domainEventType = domainEvent.GetType();
+      var handler = _DomainEventHandlers.GetOrAdd(domainEventType, CreateInstance);
 
+      await handler.Handle(domainEvent, _HandlerFactory);
+    }
 
     public async Task Dispatch<TDomainEvent>(IEnumerable<TDomainEvent> domainEvents) where TDomainEvent : IDomainEvent
     {
@@ -36,16 +38,8 @@ namespace Alex.DddBasics
 
       foreach (IDomainEvent domainEvent in domainEvents)
       {
-        await this.DispatchEvent(domainEvent);
+        await this.Dispatch(domainEvent);
       }
-    }
-
-    private async Task DispatchEvent(IDomainEvent domainEvent)
-    {
-      var domainEventType = domainEvent.GetType();
-      var handler = _DomainEventHandlers.GetOrAdd(domainEventType, CreateInstance);
-
-      await handler.Handle(domainEvent, _HandlerFactory);
     }
 
     static DomainEventHandlerWrapper CreateInstance(Type domainEventType)

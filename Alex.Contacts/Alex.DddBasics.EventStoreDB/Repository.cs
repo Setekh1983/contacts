@@ -12,18 +12,30 @@ namespace Alex.DddBasics.EventStoreDB
   {
     const BindingFlags CreationBindingFlags =
       BindingFlags.Instance | BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.NonPublic;
+    private EventStoreClient _EventStoreClient;
+    private EventTypeRegistry _EventTypeRegistry;
 
-    public Repository(EventStoreClient eventStoreClient, EventTypeRegistry eventTypeMap)
+    public Repository(EventStoreClient eventStoreClient, EventTypeRegistry eventTypeMap, 
+      IDomainEventDispatcher domainEventDispatcher)
     {
       _ = eventStoreClient ?? throw new ArgumentNullException(nameof(eventStoreClient));
       _ = eventTypeMap ?? throw new ArgumentNullException(nameof(eventTypeMap));
+      _ = domainEventDispatcher ?? throw new ArgumentNullException(nameof(domainEventDispatcher));
 
+      this.DomainEventDispatcher = domainEventDispatcher;
       this.EventStoreClient = eventStoreClient;
       this.AggregateTypeName = typeof(TAggregate).Name.ToLower();
       this.AggregateType = typeof(TAggregate);
       this.EventTypeMap = eventTypeMap;
     }
 
+    public Repository(EventStoreClient eventStoreClient, EventTypeRegistry eventTypeRegistry)
+    {
+      this._EventStoreClient = eventStoreClient;
+      this._EventTypeRegistry = eventTypeRegistry;
+    }
+
+    IDomainEventDispatcher DomainEventDispatcher { get; }
     EventStoreClient EventStoreClient { get; }
     string AggregateTypeName { get; }
     Type AggregateType { get; }
@@ -46,6 +58,8 @@ namespace Alex.DddBasics.EventStoreDB
         this.GetStreamName(persistable.Id), revision, eventData);
 
       persistable.ChangesSaved(result.NextExpectedStreamRevision.ToInt64());
+
+      await this.DomainEventDispatcher.Dispatch(events);
     }
 
     public async Task<TAggregate> LoadAsync(Guid id)

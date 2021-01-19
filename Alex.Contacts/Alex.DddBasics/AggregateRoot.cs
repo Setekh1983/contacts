@@ -37,7 +37,7 @@ namespace Alex.DddBasics
       }
     }
 
-    public IEnumerable<IDomainEvent> GetChanges() => new ReadOnlyCollection<IDomainEvent>(this.Events);
+    public IEnumerable<IDomainEvent> GetChanges() => new ReadOnlyCollection<IDomainEvent>(this.Events.ToList());
 
     void IPersistableAggregate.ChangesSaved(long newVersion)
     {

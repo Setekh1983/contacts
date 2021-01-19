@@ -1,4 +1,6 @@
 
+using Alex.Contacts.Service.Controllers;
+using Alex.DddBasics;
 using Alex.DddBasics.EventStoreDB;
 
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +26,8 @@ namespace Alex.Contacts.Service
         options.ConnectionString = this.Configuration["ConnectionStrings:EventStore"];
         options.EventAssemblies.Add(typeof(ContactCreatedV1).Assembly);
       });
+
+      services.UseDddBasics(typeof(Contact).Assembly, typeof(ContactController).Assembly);
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
