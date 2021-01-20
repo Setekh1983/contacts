@@ -1,4 +1,5 @@
-﻿using Alex.DddBasics.Test.Domain;
+﻿using Alex.DddBasics.DependencyInjection;
+using Alex.DddBasics.Test.Domain;
 
 using FluentAssertions;
 
@@ -8,8 +9,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Alex.DddBasics.Test.EventDispatcherTests
 {

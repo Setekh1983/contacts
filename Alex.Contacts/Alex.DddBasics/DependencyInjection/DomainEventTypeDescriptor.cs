@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Alex.DddBasics
+namespace Alex.DddBasics.DependencyInjection
 {
   class DomainEventTypeDescriptor
   {
-    
+
     public DomainEventTypeDescriptor(Type concreteType, Type interfaceType)
     {
       this.ConcreteType = concreteType;

@@ -1,6 +1,6 @@
 
 using Alex.Contacts.Service.Controllers;
-using Alex.DddBasics;
+using Alex.DddBasics.DependencyInjection;
 using Alex.DddBasics.EventStoreDB;
 
 using Microsoft.AspNetCore.Builder;
