@@ -27,7 +27,7 @@ namespace Alex.Contacts.Service
         options.EventAssemblies.Add(typeof(ContactCreatedV1).Assembly);
       });
 
-      services.UseDddBasics(typeof(Contact).Assembly, typeof(ContactController).Assembly);
+      services.AddDddBasics(typeof(Contact).Assembly, typeof(ContactController).Assembly);
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,7 +10,7 @@ namespace Alex.DddBasics
 {
   public static class ServiceCollectionExtensions
   {
-    public static void UseDddBasics(this IServiceCollection services, Assembly aggregateRootAssembly, params Assembly[] handlerAssemblies)
+    public static void AddDddBasics(this IServiceCollection services, Assembly aggregateRootAssembly, params Assembly[] handlerAssemblies)
     {
       _ = aggregateRootAssembly ?? throw new ArgumentNullException(nameof(aggregateRootAssembly));
       _ = handlerAssemblies ?? throw new ArgumentNullException(nameof(handlerAssemblies));
@@ -31,11 +31,11 @@ namespace Alex.DddBasics
         RegisterEventHandlers(services, handlerAssembly, domainEvents);
       }
     }
-    public static void UseDddBasics(this IServiceCollection services, Assembly aggregateRootAssembly)
+    public static void AddDddBasics(this IServiceCollection services, Assembly aggregateRootAssembly)
     {
       _ = aggregateRootAssembly ?? throw new ArgumentNullException(nameof(aggregateRootAssembly));
 
-      services.UseDddBasics(aggregateRootAssembly, Array.Empty<Assembly>());
+      services.AddDddBasics(aggregateRootAssembly, Array.Empty<Assembly>());
     }
 
     private static void RegisterEventHandlers(IServiceCollection services, Assembly handlerAssembly, 
