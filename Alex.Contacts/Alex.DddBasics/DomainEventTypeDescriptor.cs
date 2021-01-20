@@ -5,13 +5,13 @@ namespace Alex.DddBasics
   class DomainEventTypeDescriptor
   {
     
-    public DomainEventTypeDescriptor(Type eventType, Type handlerType)
+    public DomainEventTypeDescriptor(Type concreteType, Type interfaceType)
     {
-      this.EventType = eventType;
-      this.HandlerType = handlerType;
+      this.ConcreteType = concreteType;
+      this.InterfaceType = interfaceType;
     }
 
-    public Type EventType { get; }
-    public Type HandlerType { get; }
+    public Type ConcreteType { get; }
+    public Type InterfaceType { get; }
   }
 }

@@ -38,7 +38,7 @@ namespace Alex.DddBasics
       services.AddDddBasics(aggregateRootAssembly, Array.Empty<Assembly>());
     }
 
-    private static void RegisterEventHandlers(IServiceCollection services, Assembly handlerAssembly, 
+    private static void RegisterEventHandlers(IServiceCollection services, Assembly handlerAssembly,
       List<DomainEventTypeDescriptor> domainEvents)
     {
       foreach (var domainEvent in domainEvents)
@@ -47,12 +47,8 @@ namespace Alex.DddBasics
 
         foreach (var domainEventHandler in domainEventHandlers)
         {
-          if ( !services
-            .Where(desciptor => desciptor.ServiceType == domainEvent.HandlerType && desciptor.ImplementationType == domainEventHandler)
-            .Any())
-          {
-            services.AddTransient(domainEvent.HandlerType, domainEventHandler);
-          }
+          TryAddTransient(services, domainEvent.InterfaceType, domainEventHandler);
+          TryAddTransient(services, domainEvent.ConcreteType, domainEventHandler);
         }
       }
     }
@@ -60,8 +56,18 @@ namespace Alex.DddBasics
     private static List<Type> GetEventHandlersFor(Assembly handlerAssembly, DomainEventTypeDescriptor domainEvent)
     {
       return handlerAssembly.GetTypes()
-        .Where(type => type.IsClass && type.GetInterfaces().Contains(domainEvent.HandlerType))
+        .Where(type => type.IsClass && type.GetInterfaces().Contains(domainEvent.InterfaceType))
         .ToList();
+    }
+
+    private static void TryAddTransient(IServiceCollection services, Type serviceType, Type implementationType)
+    {
+      if (!services
+        .Where(desciptor => desciptor.ServiceType == serviceType && desciptor.ImplementationType == implementationType)
+        .Any())
+      {
+        services.AddTransient(serviceType, implementationType);
+      }
     }
   }
 }
