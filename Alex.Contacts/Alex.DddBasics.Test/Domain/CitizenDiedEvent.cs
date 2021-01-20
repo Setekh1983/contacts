@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Alex.DddBasics.Test.Domain
 {
-  public sealed class CitizenDiedEvent : IDomainEvent
+  public sealed class CitizenDiedEvent : DomainEvent
   {
     public CitizenDiedEvent(Guid citizenId) => this.CitizenId = citizenId;
 

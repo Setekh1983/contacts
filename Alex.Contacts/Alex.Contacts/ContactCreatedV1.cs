@@ -4,7 +4,7 @@ using System;
 
 namespace Alex.Contacts
 {
-  public class ContactCreatedV1 : IDomainEvent
+  public class ContactCreatedV1 : DomainEvent
   {
     public string FirstName { get; }
     public string LastName { get; }

@@ -4,7 +4,7 @@ using System;
 
 namespace Alex.DddBasics.Test.Domain
 {
-  public class CitizenMovedEvent : IDomainEvent
+  public class CitizenMovedEvent : DomainEvent
   {
     public CitizenMovedEvent(Guid citizen, string city, string cityCode, string street, string houseNumber, string country)
     {

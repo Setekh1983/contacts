@@ -2,7 +2,7 @@
 
 namespace Alex.DddBasics.EventStoreDB.Test.Domain
 {
-  public sealed class CitizenMarriedEvent : IDomainEvent
+  public sealed class CitizenMarriedEvent : DomainEvent
   {
 
     public CitizenMarriedEvent(Guid citizen, Guid marriedToCitizen)
