@@ -17,7 +17,7 @@ namespace Alex.DddBasics.Test.Domain
       public CitizenMarriedDomainEventHandler1Stub(IList<IDomainEvent> handledEvents) => this.HandledEvents = handledEvents;
       public Task Handle(CitizenMarriedEvent domainEvent)
       {
-        HandledEvents.Add(domainEvent);
+        this.HandledEvents.Add(domainEvent);
         return Task.CompletedTask;
       }
     }
@@ -27,7 +27,7 @@ namespace Alex.DddBasics.Test.Domain
       public CitizenMarriedDomainEventHandler2Stub(IList<IDomainEvent> handledEvents) => this.HandledEvents = handledEvents;
       public Task Handle(CitizenMarriedEvent domainEvent)
       {
-        HandledEvents.Add(domainEvent);
+        this.HandledEvents.Add(domainEvent);
         return Task.CompletedTask;
       }
     }
@@ -38,7 +38,7 @@ namespace Alex.DddBasics.Test.Domain
       public CitizenMovedDomainEventHandler1Stub(IList<IDomainEvent> handledEvents) => this.HandledEvents = handledEvents;
       public Task Handle(CitizenMovedEvent domainEvent)
       {
-        HandledEvents.Add(domainEvent);
+        this.HandledEvents.Add(domainEvent);
         return Task.CompletedTask;
       }
     }

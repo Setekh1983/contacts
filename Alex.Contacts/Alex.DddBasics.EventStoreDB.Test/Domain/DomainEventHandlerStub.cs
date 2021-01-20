@@ -14,9 +14,13 @@ namespace Alex.DddBasics.EventStoreDB.Test.Domain
     {
       public IList<IDomainEvent> HandledEvents { get; }
       public CitizenMarriedDomainEventHandler1Stub(IList<IDomainEvent> handledEvents) => this.HandledEvents = handledEvents;
-      public async Task Handle(CitizenMarriedEvent domainEvent) => HandledEvents.Add(domainEvent);
+      public Task Handle(CitizenMarriedEvent domainEvent)
+      {
+        this.HandledEvents.Add(domainEvent);
+        return Task.CompletedTask;
+      }
     }
-    public object CreateHandler(Type type)
+    public object? CreateHandler(Type type)
     {
       if (MarriedHandler == type)
       {
