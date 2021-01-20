@@ -15,20 +15,32 @@ namespace Alex.DddBasics.Test.Domain
     {
       public IList<IDomainEvent> HandledEvents { get; }
       public CitizenMarriedDomainEventHandler1Stub(IList<IDomainEvent> handledEvents) => this.HandledEvents = handledEvents;
-      public async Task Handle(CitizenMarriedEvent domainEvent) => HandledEvents.Add(domainEvent);
+      public Task Handle(CitizenMarriedEvent domainEvent)
+      {
+        HandledEvents.Add(domainEvent);
+        return Task.CompletedTask;
+      }
     }
     public class CitizenMarriedDomainEventHandler2Stub : IDomainEventHandler<CitizenMarriedEvent>
     {
       public IList<IDomainEvent> HandledEvents { get; }
       public CitizenMarriedDomainEventHandler2Stub(IList<IDomainEvent> handledEvents) => this.HandledEvents = handledEvents;
-      public async Task Handle(CitizenMarriedEvent domainEvent) => HandledEvents.Add(domainEvent);
+      public Task Handle(CitizenMarriedEvent domainEvent)
+      {
+        HandledEvents.Add(domainEvent);
+        return Task.CompletedTask;
+      }
     }
 
     public class CitizenMovedDomainEventHandler1Stub : IDomainEventHandler<CitizenMovedEvent>
     {
       public IList<IDomainEvent> HandledEvents { get; }
       public CitizenMovedDomainEventHandler1Stub(IList<IDomainEvent> handledEvents) => this.HandledEvents = handledEvents;
-      public async Task Handle(CitizenMovedEvent domainEvent) => HandledEvents.Add(domainEvent);
+      public Task Handle(CitizenMovedEvent domainEvent)
+      {
+        HandledEvents.Add(domainEvent);
+        return Task.CompletedTask;
+      }
     }
 
     public object CreateHandler(Type type)

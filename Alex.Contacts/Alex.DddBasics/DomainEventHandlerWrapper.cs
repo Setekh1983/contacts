@@ -13,7 +13,7 @@ namespace Alex.DddBasics
   {
     public override async Task Handle(IDomainEvent domainEvent, FactoryFunction factory)
     {
-      var domainEventHandlers = (IEnumerable<IDomainEventHandler<TDomainEvent>>)factory(typeof(IEnumerable<IDomainEventHandler<TDomainEvent>>));
+      var domainEventHandlers = (IEnumerable<IDomainEventHandler<TDomainEvent>>?)factory(typeof(IEnumerable<IDomainEventHandler<TDomainEvent>>));
 
       if (domainEventHandlers is not null)
       {
