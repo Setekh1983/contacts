@@ -2,6 +2,7 @@
 using Alex.Contacts.Service.Controllers;
 using Alex.DddBasics.DependencyInjection;
 using Alex.DddBasics.EventStoreDB;
+using Alex.Contacts.Service.ExceptionHandling;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,10 +34,13 @@ namespace Alex.Contacts.Service
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      if (env.IsDevelopment())
-      {
-        app.UseDeveloperExceptionPage();
-      }
+      //if (env.IsDevelopment())
+      //{
+      //  app.UseDeveloperExceptionPage();
+      //}
+
+      app.ConfigureExceptionHandler();
+
 
       app.UseHttpsRedirection();
 
