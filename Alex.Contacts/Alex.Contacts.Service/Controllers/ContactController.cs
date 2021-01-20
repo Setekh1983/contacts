@@ -28,7 +28,7 @@ namespace Alex.Contacts.Service.Controllers
       }
       Result<Name> nameResult = Name.Create(command.FirstName, command.LastName);
 
-      //throw new Exception("test");
+      throw new Exception("test");
 
       if (nameResult.IsFailure)
       {

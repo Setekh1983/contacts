@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 using System.Net;
 using System.Net.Mime;
@@ -10,7 +11,7 @@ namespace Alex.Contacts.Service.ExceptionHandling
 {
   public static partial class ExceptionHandlerMiddlewareExtensions
   {
-    public static void ConfigureExceptionHandler(this IApplicationBuilder app)
+    public static void ConfigureExceptionHandler(this IApplicationBuilder app, ILogger<Startup> logger)
     {
       app.UseExceptionHandler(appError =>
       {
@@ -23,6 +24,7 @@ namespace Alex.Contacts.Service.ExceptionHandling
 
           if (exceptionHandlerFeature != null)
           {
+            logger.LogError(exceptionHandlerFeature.Error, "An unhandled exception occurred");
             var errorDetails = new ErrorDetails(context.Response.StatusCode, "Internal Server Error");
             await context.Response.WriteAsync(JsonSerializer.Serialize(errorDetails));
           }
