@@ -16,16 +16,6 @@ namespace Alex.Contacts.Service.Test
   [TestClass]
   public class Correcting_A_Contacts_Address : ControllerTestBase
   {
-    static Guid CreateContactWithAddress()
-    {
-      Guid contactId = CreateContact("Homer", "Simpson");
-      var controller = new ContactController(EventProvider.GetRepository<Contact>());
-
-      _ = controller.AddAddress(new AddAddressCommand(contactId, "Shelbyville", "56789", "Shelby Street", "3456"))
-        .GetAwaiter().GetResult();
-
-      return contactId;
-    }
     [TestMethod]
     public void Requires_An_Address()
     {
@@ -115,6 +105,17 @@ namespace Alex.Contacts.Service.Test
 
       result.Should().NotBeNull();
       result.ShouldBeUnprocessableEntityResult("address", "Please provide at least one value of the address.");
+    }
+    
+    static Guid CreateContactWithAddress()
+    {
+      Guid contactId = CreateContact("Homer", "Simpson");
+      var controller = new ContactController(EventProvider.GetRepository<Contact>());
+
+      _ = controller.AddAddress(new AddAddressCommand(contactId, "Shelbyville", "56789", "Shelby Street", "3456"))
+        .GetAwaiter().GetResult();
+
+      return contactId;
     }
   }
 }
