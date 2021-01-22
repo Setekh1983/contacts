@@ -1,14 +1,12 @@
 
 using Alex.Contacts.Service.Controllers;
+using Alex.Contacts.Service.Utiliites;
 using Alex.DddBasics.DependencyInjection;
 using Alex.DddBasics.EventStoreDB;
-using Alex.Contacts.Service.ExceptionHandling;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Alex.Contacts.Service
@@ -22,7 +20,9 @@ namespace Alex.Contacts.Service
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddControllers();
+      services.AddControllers()
+        .ConfigureCustomBadRequestResponse();
+
       services.AddEventStoreDB<Contact>(options =>
       {
         options.ConnectionString = this.Configuration["ConnectionStrings:EventStore"];
@@ -30,17 +30,12 @@ namespace Alex.Contacts.Service
       });
 
       services.AddDddBasics(typeof(Contact).Assembly, typeof(ContactController).Assembly);
-
-      
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
+    public void Configure(IApplicationBuilder app, ILogger<Startup> logger)
     {
-      
-
       app.ConfigureExceptionHandler(logger);
-
 
       app.UseHttpsRedirection();
 

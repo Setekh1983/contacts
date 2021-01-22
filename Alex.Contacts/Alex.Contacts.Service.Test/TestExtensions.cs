@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using Alex.Contacts.Service.Utiliites;
+
+using FluentAssertions;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,12 +18,12 @@ namespace Alex.Contacts.Service.Test
       var unprocessableEntity = (UnprocessableEntityObjectResult)result;
 
       unprocessableEntity.Value.Should().NotBeNull();
-      unprocessableEntity.Value.Should().BeOfType<SerializableError>();
+      unprocessableEntity.Value.Should().BeOfType<ResponseEnvelope>();
 
-      var value = (SerializableError)unprocessableEntity.Value;
-
-      value.First().Key.Should().Be(key);
-      ((IEnumerable<string>)value.First().Value).First().Should().Be(message);
+      var value = (ResponseEnvelope)unprocessableEntity.Value;
+      
+      value.Errors.First().Title.Should().Be(key);
+      value.Errors.First().Message.Should().Be(message);
     }
   }
 }

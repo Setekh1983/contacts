@@ -23,6 +23,8 @@ namespace Alex.Contacts.Service
 
       try
       {
+        Log.Logger.Information("Starting up application");
+
         CreateHostBuilder(args).Build().Run();
       }
       catch (Exception ex)

@@ -7,9 +7,9 @@ using System.Net;
 using System.Net.Mime;
 using System.Text.Json;
 
-namespace Alex.Contacts.Service.ExceptionHandling
+namespace Alex.Contacts.Service.Utiliites
 {
-  public static partial class ExceptionHandlerMiddlewareExtensions
+  public static class ExceptionHandlerMiddlewareExtensions
   {
     public static void ConfigureExceptionHandler(this IApplicationBuilder app, ILogger<Startup> logger)
     {
@@ -25,8 +25,9 @@ namespace Alex.Contacts.Service.ExceptionHandling
           if (exceptionHandlerFeature != null)
           {
             logger.LogError(exceptionHandlerFeature.Error, "An unhandled exception occurred");
-            var errorDetails = new ErrorDetails(context.Response.StatusCode, "Internal Server Error");
-            await context.Response.WriteAsync(JsonSerializer.Serialize(errorDetails));
+
+            await context.Response.WriteAsync(
+              JsonSerializer.Serialize(ResponseEnvelope.InternalServerError()));
           }
         });
       });

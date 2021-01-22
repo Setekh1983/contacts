@@ -26,7 +26,7 @@ namespace Alex.Contacts.Service.Test
 
       ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
 
-      result.Should().BeOfType<OkResult>();
+      result.Should().BeOfType<OkObjectResult>();
       List<IDomainEvent> domainEvents = EventProvider.GetEvents<Contact>(contactId).GetAwaiter().GetResult();
 
       domainEvents.Should().HaveCount(2);
@@ -35,18 +35,6 @@ namespace Alex.Contacts.Service.Test
         domainEvent.CityCode == command.CityCode &&
         domainEvent.Street == command.Street &&
         domainEvent.HouseNumber == command.HouseNumber);
-    }
-
-    [TestMethod]
-    public void With_Null_As_A_Command_Causes_A_Bad_Request_Result()
-    {
-      IRepository<Contact> repository = EventProvider.GetRepository<Contact>();
-      var sut = new ContactController(repository);
-      
-      ActionResult result = sut.AddAddress(null).GetAwaiter().GetResult();
-
-      result.Should().NotBeNull();
-      result.Should().BeOfType<BadRequestResult>();
     }
 
     [TestMethod]
@@ -59,7 +47,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.Should().BeOfType<NotFoundResult>();
+      result.Should().BeOfType<NotFoundObjectResult>();
     }
 
     [TestMethod]
@@ -73,7 +61,7 @@ namespace Alex.Contacts.Service.Test
       ActionResult result = sut.AddAddress(command).GetAwaiter().GetResult();
 
       result.Should().NotBeNull();
-      result.Should().BeOfType<NotFoundResult>();
+      result.Should().BeOfType<NotFoundObjectResult>();
     }
 
     [TestMethod]

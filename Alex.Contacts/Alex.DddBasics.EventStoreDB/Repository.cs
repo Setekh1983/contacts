@@ -12,8 +12,6 @@ namespace Alex.DddBasics.EventStoreDB
   {
     const BindingFlags CreationBindingFlags =
       BindingFlags.Instance | BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.NonPublic;
-    private EventStoreClient _EventStoreClient;
-    private EventTypeRegistry _EventTypeRegistry;
 
     public Repository(EventStoreClient eventStoreClient, EventTypeRegistry eventTypeMap, 
       IDomainEventDispatcher domainEventDispatcher)
@@ -27,12 +25,6 @@ namespace Alex.DddBasics.EventStoreDB
       this.AggregateTypeName = typeof(TAggregate).Name.ToLower();
       this.AggregateType = typeof(TAggregate);
       this.EventTypeMap = eventTypeMap;
-    }
-
-    public Repository(EventStoreClient eventStoreClient, EventTypeRegistry eventTypeRegistry)
-    {
-      this._EventStoreClient = eventStoreClient;
-      this._EventTypeRegistry = eventTypeRegistry;
     }
 
     IDomainEventDispatcher DomainEventDispatcher { get; }

@@ -1,11 +1,14 @@
 ﻿using Alex.Contacts.Service.Commands;
+using Alex.Contacts.Service.Utiliites;
 using Alex.DddBasics;
 
 using CSharpFunctionalExtensions;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Alex.Contacts.Service.Controllers
@@ -13,22 +16,17 @@ namespace Alex.Contacts.Service.Controllers
   [ApiController]
   [Route("[controller]")]
   [Route("[controller]/[action]")]
-  public class ContactController : ControllerBase
+  public class ContactController : ContactsControllerBase<Contact>
   {
-    public ContactController(IRepository<Contact> repository) => this.Repository = repository;
-
-    public IRepository<Contact> Repository { get; }
+    public ContactController(IRepository<Contact> repository)
+      : base(repository)
+    {
+    }
 
     [HttpPost]
     public async Task<ActionResult> Create(CreateContactCommand command)
     {
-      if (command is null)
-      {
-        return this.BadRequest();
-      }
       Result<Name> nameResult = Name.Create(command.FirstName, command.LastName);
-
-      throw new Exception("test");
 
       if (nameResult.IsFailure)
       {
@@ -36,18 +34,12 @@ namespace Alex.Contacts.Service.Controllers
         return this.UnprocessableEntity(this.ModelState);
       }
       var contact = new Contact(nameResult.Value);
-      await this.Repository.SaveAsync(contact);
-
-      return this.Created("dummyRoute", new { contact.Id });
+      return await this.Created("dummyRoute", contact);
     }
 
     [HttpPost]
     public async Task<ActionResult> CorrectName(CorrectNameCommand command)
     {
-      if (command is null)
-      {
-        return this.BadRequest();
-      }
       Contact contact = await this.Repository.LoadAsync(command.ContactId);
 
       if (contact is null)
@@ -62,18 +54,13 @@ namespace Alex.Contacts.Service.Controllers
         return this.UnprocessableEntity(this.ModelState);
       }
       contact.CorrectName(nameResult.Value);
-      await this.Repository.SaveAsync(contact);
-
-      return this.Ok();
+      
+      return await this.Ok(contact);
     }
 
     [HttpPost]
     public async Task<ActionResult> AddAddress(AddAddressCommand command)
     {
-      if (command is null)
-      {
-        return this.BadRequest();
-      }
       Contact contact = await this.Repository.LoadAsync(command.ContactId);
 
       if (contact is null)
@@ -88,18 +75,13 @@ namespace Alex.Contacts.Service.Controllers
         return this.UnprocessableEntity(this.ModelState);
       }
       contact.AddAddress(addressResult.Value);
-      await this.Repository.SaveAsync(contact);
-
-      return this.Ok();
+      
+      return await this.Ok(contact);
     }
 
     [HttpPost]
     public async Task<ActionResult> CorrectAddress(CorrectAddressCommand command)
     {
-      if (command is null)
-      {
-        return this.BadRequest();
-      }
       Contact contact = await this.Repository.LoadAsync(command.ContactId);
 
       if (contact is null)
@@ -121,9 +103,8 @@ namespace Alex.Contacts.Service.Controllers
         return this.UnprocessableEntity(this.ModelState);
       }
       contact.CorrectAddress(addressResult.Value);
-      await this.Repository.SaveAsync(contact);
 
-      return this.Ok();
+      return await this.Ok(contact);
     }
   }
 }
