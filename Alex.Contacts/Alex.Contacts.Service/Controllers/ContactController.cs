@@ -5,10 +5,7 @@ using Alex.DddBasics;
 using CSharpFunctionalExtensions;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Alex.Contacts.Service.Controllers
@@ -54,7 +51,7 @@ namespace Alex.Contacts.Service.Controllers
         return this.UnprocessableEntity(this.ModelState);
       }
       contact.CorrectName(nameResult.Value);
-      
+
       return await this.Ok(contact);
     }
 
@@ -75,7 +72,7 @@ namespace Alex.Contacts.Service.Controllers
         return this.UnprocessableEntity(this.ModelState);
       }
       contact.AddAddress(addressResult.Value);
-      
+
       return await this.Ok(contact);
     }
 
