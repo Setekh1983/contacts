@@ -1,2 +1,14 @@
-<h1>{{ title }}</h1>
-<app-contact-list></app-contact-list>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <app-navigation></app-navigation>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col gy-5">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+<app-messages></app-messages>

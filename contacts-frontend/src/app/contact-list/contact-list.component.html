@@ -1,8 +1,7 @@
-<h2>My Contacts</h2>
-<ul>
-    <li *ngFor="let contact of contacts" (click)="onSelect(contact)">
-        <span>{{contact.id}}</span> {{contact.name}}
+<ul class="list-group list-group-flush">
+    <li *ngFor="let contact of contacts" 
+        routerLink="/contact-details/{{contact.id}}"
+        class="list-group-item list-group-item-action">
+            {{contact.name}}
     </li>
 </ul>
-
-<app-contact-details [contact]="selectedContact"></app-contact-details>
