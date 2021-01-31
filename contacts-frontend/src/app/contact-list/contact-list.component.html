@@ -2,6 +2,8 @@
     <li *ngFor="let contact of contacts" 
         routerLink="/contact-details/{{contact.id}}"
         class="list-group-item list-group-item-action">
-            {{contact.name}}
+        
+        <a href="#" routerLink="/contact-details/{{contact.id}}" class="text-reset text-decoration-none fs-4">{{contact.fullName}}</a>
+    
     </li>
 </ul>

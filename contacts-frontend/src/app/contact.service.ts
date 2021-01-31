@@ -20,7 +20,9 @@ export class ContactService {
       if (result === undefined || result === null) {
         result = {
           id: 0,
-          name: ""
+          foreName: "",
+          lastName: "",
+          fullName: ""
         };
       }
 

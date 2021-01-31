@@ -1,13 +1,50 @@
 <div *ngIf="contact">
 
-    <h2>{{contact.name | uppercase}} Details</h2>
-    <div><span>id: </span>{{contact.id}}</div>
+    <a href="#" (click)="goBack()">Go back</a>
+
+    <h2>{{contact.fullName}}</h2>
+
+    <div class="container">
+
+        <div class="row">
+        
+            <div class="col-2">
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-outline-primary btn-sm">Correct name</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm">Add address</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm">Correct address</button>
+                </div>
+            </div>
+        
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <span>First Name:</span>
+                    </div>
+                    <div class="col">
+                        {{contact.foreName}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span>Last Name:</span>
+                    </div>
+                    <div class="col">
+                        {{contact.lastName}}
+                    </div>
+                </div>
+            </div>
+        
+        </div>      
+
+    </div>
+
     <div>
-        <label>name:
+        <!-- <label>Name:
             <input [(ngModel)]="contact.name" placeholder="name" />
-        </label>
+        </label> -->
     </div>
 
 </div>
 
-<button (click)="goBack()">go back</button>
+
